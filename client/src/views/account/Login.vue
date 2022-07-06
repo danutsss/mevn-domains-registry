@@ -55,7 +55,7 @@ export default {
 </script>
 <template>
     <!-- login template -->
-    <div class="container col-lg-6 col-lg-offset-1">
+    <div class="container col-lg-4">
         <div class="login__container">
             <div class="login__container-header">
                 <div class="login__container-header-title">
@@ -74,48 +74,43 @@ export default {
                     </div>
 
                     <div class="row">
-                        <div class="col-lg-6 mb-3">
-                            <input
-                                hidden
-                                name="username"
-                                autocomplete="off"
-                                readonly="readonly"
-                            />
+                        <div class="mb-3">
                             <div class="form-group">
-                                <label for="email" class="form-label"
-                                    >adresa de e-mail</label
-                                >
+                                <label for="email">adresa de e-mail</label>
                                 <input
                                     id="email"
                                     v-model="email"
                                     type="email"
                                     class="form-control"
-                                    name="email"
                                     placeholder="adresa de e-mail"
-                                    autocomplete="email"
                                 />
                             </div>
-
+                        </div>
+                        <div class="mb-3">
                             <div class="form-group">
-                                <label for="password" class="form-label"
-                                    >parola</label
-                                >
+                                <label for="password">parola</label>
                                 <input
                                     id="password"
                                     v-model="password"
                                     type="password"
                                     class="form-control"
-                                    name="password"
-                                    placeholder="parola"
-                                    autocomplete="current-password"
+                                    placeholder="new-password"
                                 />
                             </div>
                         </div>
                     </div>
-                    <div class="form-group pull-right">
+                    <div class="form-group pull-center">
                         <button type="submit" class="btn btn-primary">
                             autentificare
                         </button>
+                    </div>
+                    <div class="util__links flex-row">
+                        <a href="/store/register">
+                            <span class="text-primary"> nu ai cont? </span>
+                        </a>
+                        <a href="/store/forgot-password">
+                            <span class="text-primary"> ai uitat parola? </span>
+                        </a>
                     </div>
                 </form>
             </div>
