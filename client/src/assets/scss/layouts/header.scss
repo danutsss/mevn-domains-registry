@@ -16,6 +16,12 @@
             color: $color-white;
         }
     }
+
+    &-left__content {
+        justify-content: center;
+        align-items: center;
+        align-content: center;
+    }
 }
 
 .inline-list {
