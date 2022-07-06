@@ -45,3 +45,15 @@
 a {
     text-decoration: none !important;
 }
+
+.nav-item {
+    a {
+        color: grey;
+        transition: 0.15s all ease-out;
+    }
+
+    a:hover {
+        color: black;
+        transition: 0.15s all ease-in;
+    }
+}

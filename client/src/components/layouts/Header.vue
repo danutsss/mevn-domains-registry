@@ -56,9 +56,12 @@
                     class="collapse navbar-collapse"
                 >
                     <ul class="nav navbar-nav w-100 justify-content-end">
-                        <li class="nav-item">inregistrare</li>
-                        <li class="nav-item">transfer</li>
-                        <li class="nav-item">panou client</li>
+                        <li class="nav-item">
+                            <a href="/store">inregistrare</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="/store/transfer">transfer</a>
+                        </li>
                     </ul>
                 </div>
             </div>
@@ -79,8 +82,8 @@ export default {
         logout() {
             apiConnector()
                 .get("/api/client/logout")
-                .then((response) => {
-                    console.log(response);
+                .then((/*response*/) => {
+                    // console.log(response);
                     window.localStorage.removeItem("jwtToken");
                     window.localStorage.removeItem("jwtExpiry");
                     window.location.href = "/store";
