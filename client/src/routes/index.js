@@ -2,6 +2,7 @@ import { createRouter, createWebHistory } from "vue-router";
 import Home from "@/views/Home.vue";
 import Register from "@/views/account/Register.vue";
 import Login from "@/views/account/Login.vue";
+import Transfer from "@/views/domain/Transfer.vue";
 import { isLoggedIn } from "@/services/apiConnector";
 
 const routes = [
@@ -30,6 +31,15 @@ const routes = [
         meta: {
             authRequired: false,
             title: "Autentificare @ 07INTERNET",
+        },
+    },
+    {
+        path: "/store/transfer",
+        name: "transfer",
+        component: Transfer,
+        meta: {
+            authRequired: true,
+            title: "Transfer domeniu @ 07INTERNET",
         },
     },
 ];
