@@ -1,33 +1,22 @@
-// importing the required dependencies.
 const express = require("express");
 const bodyParser = require("body-parser");
+const cookieParser = require("cookie-parser");
 const cors = require("cors");
-const helmet = require("helmet");
-const morgan = require("morgan");
 const mongoose = require("mongoose");
-
-// dotenv
-require("dotenv").config();
-const PORT = process.env.PORT || 3000;
+const morgan = require("morgan");
+const helmet = require("helmet");
+const config = require("./config/key");
+const clientRoutes = require("./routes/Clients");
 
 // mongoose database options.
 const dbOptions = {
     useNewUrlParser: true,
     useUnifiedTopology: true,
 };
-
-let dbUri = "";
-if (process.env.NODE_ENV === "development") {
-    dbUri = process.env.MONGODB_DEV;
-} else if (process.env.NODE_ENV === "production") {
-    dbUri = process.env.MONGODB_PROD;
-} else {
-    dbUri = process.env.MONGODB_TEST;
-}
-
+const PORT = config.PORT || 3000;
 // connect to mongodb database.
 mongoose
-    .connect(dbUri, dbOptions)
+    .connect(config.MONGODB_URI, dbOptions)
     .then(() => {
         console.log(
             `[mongoDB]: connected to database, starting application...`
@@ -43,14 +32,17 @@ mongoose
         app.use(bodyParser.json());
         app.use(bodyParser.urlencoded({ extended: true }));
 
+        // using cookie-parser to parse cookies into JS objects.
+        app.use(cookieParser());
+
         // enabling cors for all requests.
         app.use(cors());
 
         // adding morgan to log HTTP requests.
         app.use(morgan("combined"));
 
-        // importing the routes.
-        app.use("/api", require("./clients/routes.config"));
+        // import client routes.
+        app.use("/api", clientRoutes);
 
         process.env.NODE_ENV === "development" ?? mongoose.set("debug", true);
 
@@ -62,6 +54,6 @@ mongoose
             });
         });
     })
-    .catch((err) =>
-        console.log(`[mongoDB]: could not connect to database, error: ${err}`)
-    );
+    .catch((err) => {
+        console.log(`[mongoDB]: could not connect to database, error:\n${err}`);
+    });
