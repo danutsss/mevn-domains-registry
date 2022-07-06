@@ -42,7 +42,7 @@ mongoose
         app.use(morgan("combined"));
 
         // import client routes.
-        app.use("/api", clientRoutes);
+        app.use("/api/client", clientRoutes);
 
         process.env.NODE_ENV === "development" ?? mongoose.set("debug", true);
 
