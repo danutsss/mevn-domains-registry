@@ -23,7 +23,7 @@ export default {
                 })
                 .then((response) => {
                     this.loading = false;
-                    console.log(response);
+                    // console.log(response);
                     if (response.data.loginSuccess && response.status == 200) {
                         this.error = "";
                         this.message =

@@ -52,7 +52,7 @@ export default {
             apiConnector()
                 .post("/api/client/register", dataToSubmit)
                 .then((response) => {
-                    console.log(response);
+                    // console.log(response);
                     const errors = response.data.err?.errors;
 
                     if (errors) {
