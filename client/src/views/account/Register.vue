@@ -1,10 +1,10 @@
 <script>
 // import scss file.
-import "../../assets/scss/account/register.scss";
-import apiConnector from "../../services/apiConnector";
+import "@/assets/scss/account/register.scss";
+import apiConnector from "@/services/apiConnector";
 
 export default {
-    name: "registerPage",
+    name: "RegisterPage",
     data() {
         return {
             first_name: "",
@@ -113,12 +113,12 @@ export default {
                                     >parola</label
                                 >
                                 <input
+                                    id="password"
+                                    v-model="password"
                                     type="password"
                                     class="form-control"
-                                    id="password"
                                     name="password"
                                     placeholder="parola"
-                                    v-model="password"
                                     autocomplete="new-password"
                                 />
                             </div>
@@ -129,12 +129,12 @@ export default {
                                     >confirmare parola</label
                                 >
                                 <input
+                                    id="confirm_password"
+                                    v-model="confirm_password"
                                     type="password"
                                     class="form-control"
-                                    id="confirm_password"
                                     name="confirm_password"
                                     placeholder="confirmare parola"
-                                    v-model="confirm_password"
                                     autocomplete="new-password"
                                 />
                             </div>
@@ -148,12 +148,12 @@ export default {
                                     >prenume</label
                                 >
                                 <input
+                                    id="first_name"
+                                    v-model="first_name"
                                     type="text"
                                     class="form-control"
-                                    id="first_name"
                                     name="first_name"
                                     placeholder="prenume"
-                                    v-model="first_name"
                                     autocomplete="additional-name"
                                 />
                             </div>
@@ -164,12 +164,12 @@ export default {
                                     >nume de familie</label
                                 >
                                 <input
+                                    id="last_name"
+                                    v-model="last_name"
                                     type="text"
                                     class="form-control"
-                                    id="last_name"
                                     name="last_name"
                                     placeholder="nume de familie"
-                                    v-model="last_name"
                                     autocomplete="additional-name"
                                 />
                             </div>
@@ -180,9 +180,9 @@ export default {
                                     >tip persoana</label
                                 >
                                 <select
+                                    id="person_type"
                                     v-model="person_type"
                                     class="form-control has-value"
-                                    id="person_type"
                                     name="person_type"
                                     placeholder="tip persoana"
                                 >
@@ -192,8 +192,8 @@ export default {
 
                                     <option
                                         v-for="option in options"
-                                        :value="option.value"
                                         :key="option.value"
+                                        :value="option.value"
                                     >
                                         {{ option.text }}
                                     </option>
@@ -207,12 +207,12 @@ export default {
                                     pers. fiz.)</label
                                 >
                                 <input
+                                    id="cnp"
+                                    v-model="cnp"
                                     type="text"
                                     class="form-control"
-                                    id="cnp"
                                     name="cnp"
                                     placeholder="CNP sau cod fiscal"
-                                    v-model="cnp"
                                 />
                             </div>
                         </div>
@@ -222,24 +222,24 @@ export default {
                                     >nr. reg. com (pt. companii)</label
                                 >
                                 <input
+                                    id="nr_reg_com"
+                                    v-model="nr_reg_com"
                                     type="text"
                                     class="form-control"
-                                    id="nr_reg_com"
                                     name="nr_reg_com"
                                     placeholder="nr. reg. com (pt. companii)"
-                                    v-model="nr_reg_com"
                                 />
                             </div>
                         </div>
                         <div class="col-lg-6 mb-3">
                             <label for="email" class="form-label"> email</label>
                             <input
+                                id="email"
+                                v-model="email"
                                 type="email"
                                 class="form-control"
-                                id="email"
                                 name="email"
                                 placeholder="email"
-                                v-model="email"
                                 autocomplete="email"
                             />
                         </div>
@@ -248,12 +248,12 @@ export default {
                                 >telefon (format: +40.xxxxxxxxx)</label
                             >
                             <input
+                                id="phone"
+                                v-model="phone"
                                 type="text"
                                 class="form-control"
-                                id="phone"
                                 name="phone"
                                 placeholder="numar de telefon"
-                                v-model="phone"
                             />
                         </div>
                         <div class="col-lg-6 mb-3">
@@ -261,12 +261,12 @@ export default {
                                 >adresa</label
                             >
                             <input
+                                id="address"
+                                v-model="address"
                                 type="text"
                                 class="form-control"
-                                id="address"
                                 name="address"
                                 placeholder="adresa"
-                                v-model="address"
                             />
                         </div>
                         <div class="col-lg-6 mb-3">
@@ -274,23 +274,23 @@ export default {
                                 >localitate</label
                             >
                             <input
+                                id="city"
+                                v-model="city"
                                 type="text"
                                 class="form-control"
-                                id="city"
                                 name="city"
                                 placeholder="localitate"
-                                v-model="city"
                             />
                         </div>
                         <div class="col-lg-6 mb-3">
                             <label for="county" class="form-label">judet</label>
                             <input
+                                id="county"
+                                v-model="county"
                                 type="text"
                                 class="form-control"
-                                id="county"
                                 name="county"
                                 placeholder="judet"
-                                v-model="county"
                             />
                         </div>
                     </div>
