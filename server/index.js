@@ -1,10 +1,12 @@
 const express = require("express");
 const bodyParser = require("body-parser");
+const cookieParser = require("cookie-parser");
 const cors = require("cors");
 const mongoose = require("mongoose");
 const morgan = require("morgan");
 const helmet = require("helmet");
 const config = require("./config/key");
+const clientRoutes = require("./routes/Clients");
 
 // mongoose database options.
 const dbOptions = {
@@ -30,11 +32,17 @@ mongoose
         app.use(bodyParser.json());
         app.use(bodyParser.urlencoded({ extended: true }));
 
+        // using cookie-parser to parse cookies into JS objects.
+        app.use(cookieParser());
+
         // enabling cors for all requests.
         app.use(cors());
 
         // adding morgan to log HTTP requests.
         app.use(morgan("combined"));
+
+        // import client routes.
+        app.use("/api", clientRoutes);
 
         process.env.NODE_ENV === "development" ?? mongoose.set("debug", true);
 
@@ -47,5 +55,5 @@ mongoose
         });
     })
     .catch((err) => {
-        console.log(`[mongoDB]: could not connect to database, error: ${err}`);
+        console.log(`[mongoDB]: could not connect to database, error:\n${err}`);
     });
