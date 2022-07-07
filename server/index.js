@@ -36,13 +36,18 @@ mongoose
         app.use(cookieParser());
 
         // enabling cors for all requests.
-        app.use(cors());
+        app.use(
+            cors({
+                credentials: true,
+                origin: true,
+            })
+        );
 
         // adding morgan to log HTTP requests.
         app.use(morgan("combined"));
 
         // import client routes.
-        app.use("/api", clientRoutes);
+        app.use("/api/client", clientRoutes);
 
         process.env.NODE_ENV === "development" ?? mongoose.set("debug", true);
 

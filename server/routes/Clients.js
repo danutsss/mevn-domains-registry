@@ -34,6 +34,12 @@ router.post("/register", (req, res) => {
 
 router.post("/login", (req, res) => {
     Client.findOne({ email: req.body.email }, (err, client) => {
+        if (!req.body.email) {
+            return res.json({
+                loginSuccess: false,
+                message: "authentication failed, e-mail address is required.",
+            });
+        }
         if (!client) {
             return res.json({
                 loginSuccess: false,
@@ -42,10 +48,16 @@ router.post("/login", (req, res) => {
         }
 
         client.comparePassword(req.body.password, (err, isMatch) => {
+            if (!req.body.password) {
+                return res.json({
+                    loginSuccess: false,
+                    message: "authentication failed, password is required.",
+                });
+            }
             if (!isMatch)
                 return res.json({
                     loginSuccess: false,
-                    message: "Authentication failed, password is wrong!",
+                    message: "authentication failed, password is wrong!",
                 });
 
             client.generateToken((err, client) => {
@@ -54,6 +66,8 @@ router.post("/login", (req, res) => {
                 res.cookie("w_auth", client.token).status(200).json({
                     loginSuccess: true,
                     _id: client._id,
+                    token: client.token,
+                    tokenExp: config.JWT_EXPIRY,
                 });
             });
         });
