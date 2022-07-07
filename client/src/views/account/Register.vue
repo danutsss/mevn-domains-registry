@@ -151,9 +151,7 @@ export default {
                             "POST",
                             config.ucrmApiUrl + "/clients",
                             body
-                        ).then((response) => {
-                            console.log(response);
-                        });
+                        ).then((response) => console.log(response));
                     }
                 });
         },
