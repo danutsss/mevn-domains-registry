@@ -1,4 +1,5 @@
 import axios from "axios";
+import config from "@/config/key";
 
 export const isLoggedIn = () => {
     return localStorage.getItem("jwtToken") !== null;
@@ -22,8 +23,7 @@ export const ucrmApiRequest = (method, url, data) => {
         data: data,
         headers: {
             "Content-Type": "application/json",
-            "X-Auth-App-Key":
-                "HS9hdWcdsV34MXGy/VKKloywDwZeVORNGAfZlHQNQM2sAQM03bSPOodm/9eQ1qpH",
+            "X-Auth-App-Key": config.ucrmApiKey,
         },
     });
 };

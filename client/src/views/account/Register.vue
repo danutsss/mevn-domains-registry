@@ -2,6 +2,7 @@
 // import scss file.
 import "@/assets/scss/account/register.scss";
 import apiConnector, { ucrmApiRequest } from "@/services/apiConnector";
+import config from "@/config/key";
 
 export default {
     name: "RegisterPage",
@@ -148,7 +149,7 @@ export default {
 
                         ucrmApiRequest(
                             "POST",
-                            "https://uisp.07internet.ro/crm/api/v1.0/clients",
+                            config.ucrmApiUrl + "/clients",
                             body
                         ).then((response) => {
                             console.log(response);
