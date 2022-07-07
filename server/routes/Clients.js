@@ -17,6 +17,7 @@ router.get("/auth", auth, (req, res) => {
         county: req.client.county,
         cnp: req.client.cnp,
         nr_reg_com: req.client.nr_reg_com,
+        zip_code: req.client.zip_code,
     });
 });
 
