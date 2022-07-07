@@ -2,20 +2,17 @@
     <div>
         <Header />
         <router-view />
-        <Footer />
     </div>
 </template>
 
 <script>
 // import header and footer.
 import Header from "@/components/layouts/Header.vue";
-import Footer from "@/components/layouts/Footer.vue";
 
 export default {
     name: "App",
     components: {
         Header,
-        Footer,
     },
 };
 </script>
