@@ -14,3 +14,16 @@ export default () => {
         },
     });
 };
+
+export const ucrmApiRequest = (method, url, data) => {
+    return axios({
+        method: method,
+        url: url,
+        data: data,
+        headers: {
+            "Content-Type": "application/json",
+            "X-Auth-App-Key":
+                "HS9hdWcdsV34MXGy/VKKloywDwZeVORNGAfZlHQNQM2sAQM03bSPOodm/9eQ1qpH",
+        },
+    });
+};
