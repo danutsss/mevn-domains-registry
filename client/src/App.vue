@@ -27,5 +27,8 @@ body {
     -moz-osx-font-smoothing: grayscale;
     font-size: 16px;
     background-color: #f4f4f4 !important;
+    position: relative;
+    min-height: 100%;
+    min-height: 100vh;
 }
 </style>
