@@ -28,9 +28,9 @@ export default {
             <div class="row flex-row header__container">
                 <div class="col-lg-6 col-12">
                     <div>
-                        <h1>Cauta domeniu</h1>
+                        <h1>cauta domeniu</h1>
                         <p>
-                            Introduceti un nume de domeniu pentru a verifica
+                            introduceti un nume de domeniu pentru a verifica
                             disponibilitatea acestuia; daca este liber pentru
                             inregistrare puteti continua comanda sau puteti
                             verifica un alt domeniu.
