@@ -55,7 +55,6 @@ export default {
             apiConnector()
                 .post("/api/client/register", dataToSubmit)
                 .then((response) => {
-                    console.log(response);
                     const errors = response.data.err?.errors;
 
                     if (errors) {
@@ -81,7 +80,7 @@ export default {
                     } else {
                         this.message = "Registration successful!";
 
-                        var body = {
+                        const body = {
                             userIdent: `07NAV${Math.floor(
                                 Math.random() * 1000000
                             )}`,
@@ -101,33 +100,24 @@ export default {
                             street1: this.address,
                             street2: "",
                             city: this.city,
-                            countryId: "",
-                            stateId: "",
+                            countryId: 205,
                             zipCode: this.zip_code,
                             fullAddress: this.address,
                             invoiceStreet1: this.address,
-                            invoiceStreet2: "",
                             invoiceCity: this.city,
-                            invoiceStateId: "",
-                            invoiceCountryId: "",
+                            invoiceCountryId: 205,
                             invoiceZipCode: this.zip_code,
                             invoiceAddressSameAsContact: false,
-                            note: "",
                             sendInvoiceByPost: false,
                             invoiceMaturityDays: 14,
                             stopServiceDue: true,
                             stopServiceDueDays: 0,
                             organizationId: 1,
-                            tax1Id: 1,
-                            tax2Id: 2,
-                            tax3Id: 3,
-                            registrationDate: Date.now(),
                             username: this.email,
                             avatarColor: "#FFC107",
-                            addressGpsLat: "",
-                            addressGpsLon: "",
+                            addressGpsLat: 45.9852129,
+                            addressGpsLon: 24.6859225,
                             generateProformaInvoices: false,
-                            referral: "",
                             contacts: [
                                 {
                                     email: this.email,
@@ -151,7 +141,9 @@ export default {
                             "POST",
                             config.ucrmApiUrl + "/clients",
                             body
-                        ).then((response) => console.log(response));
+                        ).then(() => {
+                            console.log("[ucrm]: client created.");
+                        });
                     }
                 });
         },
