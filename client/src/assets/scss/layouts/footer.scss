@@ -1,7 +1,13 @@
 @import "../variables";
 
 footer {
-    position: fixed;
+    position: absolute;
+    right: 0;
     bottom: 0;
-    width: 100%;
+    left: 0;
+    background-color: #f1f1f1;
+
+    div {
+        background-color: rgba(0, 0, 0, 0.2);
+    }
 }

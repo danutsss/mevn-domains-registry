@@ -185,7 +185,7 @@
 }
 
 // colors
-$color-black: #000; // black color
+$color-black: #212529; // black color
 $color-white: #fff; // white color
 $gray-light: #f1f1f1; // light gray color
 $gray-lighter: #f4f4f4; // lighter gray color
@@ -199,4 +199,8 @@ $gray-lighter: #f4f4f4; // lighter gray color
 .flex-column {
     display: flex;
     flex-direction: column;
+}
+
+.ptb-100 {
+    padding: 100px 0;
 }
