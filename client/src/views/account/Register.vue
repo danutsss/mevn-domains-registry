@@ -1,7 +1,8 @@
 <script>
 // import scss file.
 import "@/assets/scss/account/register.scss";
-import apiConnector from "@/services/apiConnector";
+import apiConnector, { ucrmApiRequest } from "@/services/apiConnector";
+import config from "@/config/key";
 
 export default {
     name: "RegisterPage",
@@ -17,6 +18,7 @@ export default {
             address: "",
             city: "",
             county: "",
+            zip_code: "",
             email: "",
             person_type: "",
             message: "",
@@ -45,6 +47,7 @@ export default {
                 address: this.address,
                 city: this.city,
                 county: this.county,
+                zip_code: this.zip_code,
                 email: this.email,
                 person_type: this.person_type,
             };
@@ -52,7 +55,6 @@ export default {
             apiConnector()
                 .post("/api/client/register", dataToSubmit)
                 .then((response) => {
-                    // console.log(response);
                     const errors = response.data.err?.errors;
 
                     if (errors) {
@@ -77,6 +79,71 @@ export default {
                         }
                     } else {
                         this.message = "Registration successful!";
+
+                        const body = {
+                            userIdent: `07NAV${Math.floor(
+                                Math.random() * 1000000
+                            )}`,
+                            previousIsp: "",
+                            isLead: false,
+                            clientType: 1,
+                            companyName: "",
+                            companyRegistrationNumber: this.nr_reg_com
+                                ? this.nr_reg_com
+                                : "",
+                            companyTaxId: "",
+                            companyWebsite: "",
+                            companyContactFirstName: "",
+                            companyContactLastName: "",
+                            firstName: this.first_name,
+                            lastName: this.last_name,
+                            street1: this.address,
+                            street2: "",
+                            city: this.city,
+                            countryId: 205,
+                            zipCode: this.zip_code,
+                            fullAddress: this.address,
+                            invoiceStreet1: this.address,
+                            invoiceCity: this.city,
+                            invoiceCountryId: 205,
+                            invoiceZipCode: this.zip_code,
+                            invoiceAddressSameAsContact: false,
+                            sendInvoiceByPost: false,
+                            invoiceMaturityDays: 14,
+                            stopServiceDue: true,
+                            stopServiceDueDays: 0,
+                            organizationId: 1,
+                            username: this.email,
+                            avatarColor: "#FFC107",
+                            addressGpsLat: 45.9852129,
+                            addressGpsLon: 24.6859225,
+                            generateProformaInvoices: false,
+                            contacts: [
+                                {
+                                    email: this.email,
+                                    phone: this.phone,
+                                    name: `${this.last_name} ${this.first_name}`,
+                                    isBilling: false,
+                                    isContact: false,
+                                    types: [
+                                        {
+                                            name: "General contact",
+                                        },
+                                    ],
+                                },
+                            ],
+                            attributes: [],
+                            password: this.password,
+                            addressData: {},
+                        };
+
+                        ucrmApiRequest(
+                            "POST",
+                            config.ucrmApiUrl + "/clients",
+                            body
+                        ).then(() => {
+                            console.log("[ucrm]: client created.");
+                        });
                     }
                 });
         },
@@ -291,6 +358,19 @@ export default {
                                 class="form-control"
                                 name="county"
                                 placeholder="judet"
+                            />
+                        </div>
+                        <div class="col-lg-6 mb-3">
+                            <label for="county" class="form-label"
+                                >cod postal</label
+                            >
+                            <input
+                                id="zip_code"
+                                v-model="zip_code"
+                                type="text"
+                                class="form-control"
+                                name="zip_code"
+                                placeholder="cod postal"
                             />
                         </div>
                     </div>

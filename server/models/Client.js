@@ -62,6 +62,11 @@ const clientSchema = new mongoose.Schema(
             trim: true,
             required: [true, "county is required."],
         },
+        zip_code: {
+            type: String,
+            trim: true,
+            required: [true, "zip code is required."],
+        },
         token: {
             type: String,
         },

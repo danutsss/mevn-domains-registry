@@ -12,7 +12,7 @@
                         <ul class="inline-list">
                             <li class="inline-list__item">cosul meu (0)</li>
                             <li class="inline-list__item">
-                                <a href="/store/">cont</a>
+                                <a href="/store/profile">cont</a>
                             </li>
                             <li class="inline-list__item">
                                 <button class="btn btn-primary" @click="logout">
