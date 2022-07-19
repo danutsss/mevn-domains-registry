@@ -83,14 +83,57 @@ exports.show = async function (req, res) {
 };
 
 /**
- * @route - PUT api/client./:id
+ * @route - PUT api/client/:id
  * @desc - update a client by id
  * @access - public
  */
-exports.update = async function(req, res) {
-    try { 
+exports.update = async function (req, res) {
+    try {
         const update = req.body;
         const id = req.params.id;
-        const clientID = req.client._id;
+        const clientId = req.client._id;
+
+        // make sure the passed id is that of the logged in user.
+        if (clientId.toString() !== id.toString())
+            return res.status(401).json({
+                message: "you are not authorized to perform this action.",
+            });
+
+        const client = await Client.findByIdAndUpdate(
+            id,
+            { $set: update },
+            { new: true }
+        );
+    } catch (error) {
+        res.status(500).json({
+            message: error.message,
+        });
     }
-}
+};
+
+/**
+ * @route - DELETE api/client/:id
+ * @desc - delete a client by id
+ * @access - public
+ */
+exports.delete = async function (req, res) {
+    try {
+        const id = req.params.id;
+        const clientId = req.client._id;
+
+        // make sure the passed id is that of the logged in user.
+        if (clientId.toString() !== id.toString())
+            return res.status(401).json({
+                message: "you are not authorized to perform this action.",
+            });
+
+        await Client.findByIdAndDelete(id);
+        res.status(200).json({
+            message: "user deleted.",
+        });
+    } catch (error) {
+        res.status(500).json({
+            message: error.message,
+        });
+    }
+};

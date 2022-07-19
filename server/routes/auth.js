@@ -56,7 +56,7 @@ router.post(
 
 // email verification.
 router.get("/verify/:token", Auth.verify);
-router.post("/resend", Auth.resend);
+router.post("/resend", Auth.resendToken);
 
 // password reset.
 router.post(
@@ -66,7 +66,7 @@ router.post(
     Password.recover
 );
 
-route.rget("/reset/:token", Password.reset);
+router.get("/reset/:token", Password.reset);
 
 router.post(
     "/reset/:token",

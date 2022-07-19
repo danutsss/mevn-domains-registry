@@ -8,9 +8,6 @@ const validate = require("../middleware/validate");
 
 const router = express.Router();
 
-// index.
-router.get("/", User.index);
-
 // store.
 router.post(
     "/",

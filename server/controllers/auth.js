@@ -142,7 +142,7 @@ exports.verify = async (req, res) => {
  * @desc - resend a verification email.
  * @access - public
  */
-exports.resentToken = async (req, res) => {
+exports.resendToken = async (req, res) => {
     try {
         const { email } = req.body;
 

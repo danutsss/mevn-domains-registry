@@ -51,8 +51,8 @@ mongoose
         app.use(passport.initialize());
         require("./middleware/jwt")(passport);
 
-        // import client routes.
-        app.use("/api/client")(app);
+        // configuring routes.
+        require("./routes/index")(app);
 
         process.env.NODE_ENV === "development" ?? mongoose.set("debug", true);
 
