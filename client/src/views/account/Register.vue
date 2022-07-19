@@ -55,29 +55,12 @@ export default {
             apiConnector()
                 .post("/api/client/register", dataToSubmit)
                 .then((response) => {
-                    const errors = response.data.err?.errors;
-
-                    if (errors) {
-                        if (errors.first_name) {
-                            this.error = errors.first_name.message;
-                        } else if (errors.last_name) {
-                            this.error = errors.last_name.message;
-                        } else if (errors.email) {
-                            this.error = errors.email.message;
-                        } else if (errors.password) {
-                            this.error = errors.password.message;
-                        } else if (errors.address) {
-                            this.error = errors.address.message;
-                        } else if (errors.phone) {
-                            this.error = errors.phone.message;
-                        } else if (errors.city) {
-                            this.error = errors.city.message;
-                        } else if (errors.county) {
-                            this.error = errors.county.message;
-                        } else {
-                            this.error = "";
-                        }
+                    console.log(response);
+                    if (response.data.error) {
+                        this.message = "";
+                        this.error = response.data.error;
                     } else {
+                        this.error = "";
                         this.message = "Registration successful!";
 
                         const body = {
@@ -160,13 +143,13 @@ export default {
                 </div>
             </div>
             <div class="register__container-body">
+                <div v-if="error" class="alert alert-danger">
+                    {{ error }}
+                </div>
+                <div v-else-if="message" class="alert alert-success">
+                    {{ message }}
+                </div>
                 <form @submit.prevent="registerClient">
-                    <div v-if="error" class="alert alert-danger">
-                        {{ error }}
-                    </div>
-                    <div v-else-if="message" class="alert alert-success">
-                        {{ message }}
-                    </div>
                     <div class="row">
                         <div class="col-lg-6 mb-3">
                             <input
@@ -187,6 +170,7 @@ export default {
                                     name="password"
                                     placeholder="parola"
                                     autocomplete="new-password"
+                                    required
                                 />
                             </div>
                         </div>
@@ -203,6 +187,7 @@ export default {
                                     name="confirm_password"
                                     placeholder="confirmare parola"
                                     autocomplete="new-password"
+                                    required
                                 />
                             </div>
                         </div>
@@ -222,6 +207,7 @@ export default {
                                     name="first_name"
                                     placeholder="prenume"
                                     autocomplete="additional-name"
+                                    required
                                 />
                             </div>
                         </div>
@@ -238,6 +224,7 @@ export default {
                                     name="last_name"
                                     placeholder="nume de familie"
                                     autocomplete="additional-name"
+                                    required
                                 />
                             </div>
                         </div>
@@ -252,6 +239,7 @@ export default {
                                     class="form-control has-value"
                                     name="person_type"
                                     placeholder="tip persoana"
+                                    required
                                 >
                                     <option disabled value="">
                                         selecteaza tip persoana
@@ -280,6 +268,7 @@ export default {
                                     class="form-control"
                                     name="cnp"
                                     placeholder="CNP sau cod fiscal"
+                                    required
                                 />
                             </div>
                         </div>
@@ -308,6 +297,7 @@ export default {
                                 name="email"
                                 placeholder="email"
                                 autocomplete="email"
+                                required
                             />
                         </div>
                         <div class="col-lg-6 mb-3">
@@ -321,6 +311,7 @@ export default {
                                 class="form-control"
                                 name="phone"
                                 placeholder="numar de telefon"
+                                required
                             />
                         </div>
                         <div class="col-lg-6 mb-3">
@@ -334,6 +325,7 @@ export default {
                                 class="form-control"
                                 name="address"
                                 placeholder="adresa"
+                                required
                             />
                         </div>
                         <div class="col-lg-6 mb-3">
@@ -347,6 +339,7 @@ export default {
                                 class="form-control"
                                 name="city"
                                 placeholder="localitate"
+                                required
                             />
                         </div>
                         <div class="col-lg-6 mb-3">
@@ -358,6 +351,7 @@ export default {
                                 class="form-control"
                                 name="county"
                                 placeholder="judet"
+                                required
                             />
                         </div>
                         <div class="col-lg-6 mb-3">
@@ -371,6 +365,7 @@ export default {
                                 class="form-control"
                                 name="zip_code"
                                 placeholder="cod postal"
+                                required
                             />
                         </div>
                     </div>
