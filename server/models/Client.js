@@ -1,7 +1,10 @@
 const mongoose = require("mongoose");
 const bcrypt = require("bcrypt");
+const crypto = require("crypto");
 const jwt = require("jsonwebtoken");
 const config = require("../config/key");
+
+const Token = require("./Token");
 
 const saltRounds = 10;
 
@@ -11,28 +14,34 @@ const clientSchema = new mongoose.Schema(
             type: String,
             trim: true,
             maxlength: 36,
-            required: [true, "first name is required."],
+            required: "your first name is required.",
         },
         last_name: {
             type: String,
             trim: true,
             maxlength: 36,
-            required: [true, "last name is required."],
+            required: "your last name is required.",
         },
         email: {
             type: String,
             trim: true,
             unique: true,
-            required: [true, "email is required."],
+            required: "your e-mail is required.",
         },
         password: {
             type: String,
             trim: true,
-            required: [true, "password is required."],
+            required: "your password is required.",
+        },
+        person_type: {
+            type: String,
+            trim: true,
+            required: "your person type is required.",
         },
         cnp: {
             type: String,
             trim: true,
+            required: "your cnp is required.",
         },
         nr_reg_com: {
             type: String,
@@ -41,7 +50,7 @@ const clientSchema = new mongoose.Schema(
         phone: {
             type: String,
             trim: true,
-            required: [true, "phone is required."],
+            required: "your phone is required.",
             match: [
                 /\+\d{2}\.\d{9}/,
                 "phone number format must be: +40.xxxxxxxxx",
@@ -50,48 +59,54 @@ const clientSchema = new mongoose.Schema(
         address: {
             type: String,
             trim: true,
-            required: [true, "address is required."],
+            required: "your address is required.",
         },
         city: {
             type: String,
             trim: true,
-            required: [true, "city is required."],
+            required: "your city is required.",
         },
         county: {
             type: String,
             trim: true,
-            required: [true, "county is required."],
+            required: "your county is required.",
         },
         zip_code: {
             type: String,
             trim: true,
-            required: [true, "zip code is required."],
+            required: "your zip code is required.",
         },
-        token: {
+        isVerified: {
+            type: Boolean,
+            default: false,
+        },
+        resetPasswordToken: {
             type: String,
+            required: false,
         },
-        tokenExp: {
-            type: Number,
+        resetPasswordExpires: {
+            type: Date,
+            required: false,
         },
     },
-    { collection: "clients" }
+    { collection: "clients", timestamps: true }
 );
 
 clientSchema.pre("save", function (next) {
-    var client = this;
-    if (client.isModified("password")) {
-        bcrypt.genSalt(saltRounds, function (err, salt) {
+    const client = this;
+
+    if (!client.isModified("password")) return next();
+
+    bcrypt.genSalt(saltRounds, function (err, salt) {
+        if (err) return next(err);
+
+        bcrypt.hash(client.password, salt, function (err, hash) {
             if (err) return next(err);
 
-            bcrypt.hash(client.password, salt, function (err, hash) {
-                if (err) return next(err);
-                client.password = hash;
-                next();
-            });
+            client.password = hash;
+            next();
         });
-    } else {
-        next();
-    }
+    });
 });
 
 clientSchema.methods.comparePassword = function (plainPassword, cb) {
@@ -101,27 +116,43 @@ clientSchema.methods.comparePassword = function (plainPassword, cb) {
     });
 };
 
-clientSchema.methods.generateToken = function (cb) {
-    var client = this;
-    var token = jwt.sign({ _id: client._id.toString() }, config.JWT_SECRET);
+clientSchema.methods.generateJWT = function () {
+    const today = new Date();
+    const expirationDate = new Date(today);
+    expirationDate.setDate(today.getDate() + 60);
 
-    client.token = token;
-    client.save((err, client) => {
-        if (err) return cb(err);
+    let payload = {
+        id: this._id,
+        email: this.email,
+        first_name: this.first_name,
+        last_name: this.last_name,
+        person_type: this.person_type,
+        cnp: this.cnp,
+        nr_reg_com: this.nr_reg_com,
+        phone: this.phone,
+        address: this.address,
+        city: this.city,
+        county: this.county,
+        zip_code: this.zip_code,
+    };
 
-        cb(null, client);
+    return jwt.sign(payload, config.JWT_SECRET, {
+        expiresIn: parseInt(expirationDate.getTime() / 1000, 10),
     });
 };
 
-clientSchema.statics.findByToken = function (token, cb) {
-    var client = this;
+clientSchema.methods.genereatePasswordReset = function () {
+    this.resetPasswordToken = crypto.randomBytes(20).toString("hex");
+    this.resetPasswordExpires = Date.now() + 3600000; // 1 hour
+};
 
-    jwt.verify(token, config.JWT_SECRET, function (err, decode) {
-        client.findOne({ _id: decode, token: token }, function (err, client) {
-            if (err) return cb(err);
-            cb(null, client);
-        });
-    });
+clientSchema.methods.generateVerificationToken = function () {
+    let payload = {
+        clientId: this._id,
+        token: crypto.randomBytes(20).toString("hex"),
+    };
+
+    return new Token(payload);
 };
 
 const Client = mongoose.model("Client", clientSchema);
