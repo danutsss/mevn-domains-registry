@@ -1,4 +1,4 @@
-const Client = require("../models/Client");
+const { Client } = require("../models/Client");
 const config = require("../config/key");
 const { sendEmail } = require("../utils/index");
 
@@ -36,8 +36,8 @@ exports.store = async (req, res) => {
         let domain = `http://${req.headers.host}`;
         let subject = "new account created.";
         let to = client.email;
-        let from = config.FROM_EMAIL;
-        let link = `${domain}/api/auth/recover-password/${client.passwordResetToken}`;
+        let from = "matei@07internet.ro";
+        let link = `${domain}/api/auth/recover-password/${client.resetPasswordToken}`;
         let html = `<h1>Welcome to the app</h1>
         <p>a new account has been created for you on ${domain}.</p>
         <p>please click on the following <a href = ${link}>link</a> to set your password and login.</p>

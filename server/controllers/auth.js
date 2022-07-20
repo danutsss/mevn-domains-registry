@@ -1,4 +1,4 @@
-const Client = require("../models/Client");
+const { Client } = require("../models/Client");
 const Token = require("../models/Token");
 const config = require("../config/key");
 
@@ -22,7 +22,7 @@ exports.register = async (req, res) => {
                     "the e-mail address you have entered is already associated with another account.",
             });
 
-        const newClient = newClient({ ...req.body });
+        const newClient = new Client({ ...req.body });
 
         const client_ = await newClient.save();
 
@@ -176,7 +176,7 @@ async function sendVerificationEmail(client, req, res) {
 
         let subject = "account verification";
         let to = client.email;
-        let from = config.FROM_EMAIL;
+        let from = "matei@07internet.ro";
         let link = `http://${req.headers.host}/api/auth/verify/${token.token}`;
         let html = `<h1>Please verify your account</h1>
         <p>Please click the link below to verify your account:</p>
@@ -189,7 +189,7 @@ async function sendVerificationEmail(client, req, res) {
         });
     } catch (error) {
         res.status(500).json({
-            message: error.message,
+            message: error,
         });
     }
 }
