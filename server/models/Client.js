@@ -109,11 +109,8 @@ clientSchema.pre("save", function (next) {
     });
 });
 
-clientSchema.methods.comparePassword = function (plainPassword, cb) {
-    bcrypt.compare(plainPassword, this.password, function (err, isMatch) {
-        if (err) return cb(err);
-        cb(null, isMatch);
-    });
+clientSchema.methods.comparePassword = function (plainPassword) {
+    return bcrypt.compareSync(plainPassword, this.password);
 };
 
 clientSchema.methods.generateJWT = function () {
@@ -141,7 +138,7 @@ clientSchema.methods.generateJWT = function () {
     });
 };
 
-clientSchema.methods.genereatePasswordReset = function () {
+clientSchema.methods.generatePasswordReset = function () {
     this.resetPasswordToken = crypto.randomBytes(20).toString("hex");
     this.resetPasswordExpires = Date.now() + 3600000; // 1 hour
 };
