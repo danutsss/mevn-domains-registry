@@ -10,60 +10,62 @@ const passport = require("passport");
 
 // mongoose database options.
 const dbOptions = {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
+	useNewUrlParser: true,
+	useUnifiedTopology: true,
 };
 const PORT = config.PORT || 3000;
 
+//stackoverflow.com/questions/62270350/using-express-and-mongodb-how-do-i-log-out-a-user
+
 // connect to mongodb database.
 mongoose
-    .connect(config.MONGODB_URI, dbOptions)
-    .then(() => {
-        console.log(
-            `[mongoDB]: connected to database, starting application...`
-        );
+	.connect(config.MONGODB_URI, dbOptions)
+	.then(() => {
+		console.log(
+			`[mongoDB]: connected to database, starting application...`
+		);
 
-        // defining the express app.
-        const app = express();
+		// defining the express app.
+		const app = express();
 
-        // adding helmet to enhance the API's security.
-        app.use(helmet());
+		// adding helmet to enhance the API's security.
+		app.use(helmet());
 
-        // using body-parser to parse JSON bodies into JS objects.
-        app.use(bodyParser.json());
-        app.use(bodyParser.urlencoded({ extended: true }));
+		// using body-parser to parse JSON bodies into JS objects.
+		app.use(bodyParser.json());
+		app.use(bodyParser.urlencoded({ extended: true }));
 
-        // using cookie-parser to parse cookies into JS objects.
-        app.use(cookieParser());
+		// using cookie-parser to parse cookies into JS objects.
+		app.use(cookieParser());
 
-        // enabling cors for all requests.
-        app.use(
-            cors({
-                credentials: true,
-                origin: true,
-            })
-        );
+		// enabling cors for all requests.
+		app.use(
+			cors({
+				credentials: true,
+				origin: true,
+			})
+		);
 
-        // adding morgan to log HTTP requests.
-        app.use(morgan("combined"));
+		// adding morgan to log HTTP requests.
+		app.use(morgan("combined"));
 
-        // initialize passport middleware.
-        app.use(passport.initialize());
-        require("./middleware/jwt")(passport);
+		// initialize passport middleware.
+		app.use(passport.initialize());
+		require("./middleware/jwt")(passport);
 
-        // configuring routes.
-        require("./routes/index")(app);
+		// configuring routes.
+		require("./routes/index")(app);
 
-        process.env.NODE_ENV === "development" ?? mongoose.set("debug", true);
+		process.env.NODE_ENV === "development" ?? mongoose.set("debug", true);
 
-        setTimeout(() => {
-            app.listen(PORT, () => {
-                console.log(
-                    `[server]: application started, running on port ${PORT}`
-                );
-            });
-        });
-    })
-    .catch((err) => {
-        console.log(`[mongoDB]: could not connect to database, error:\n${err}`);
-    });
+		setTimeout(() => {
+			app.listen(PORT, () => {
+				console.log(
+					`[server]: application started, running on port ${PORT}`
+				);
+			});
+		});
+	})
+	.catch((err) => {
+		console.log(`[mongoDB]: could not connect to database, error:\n${err}`);
+	});
