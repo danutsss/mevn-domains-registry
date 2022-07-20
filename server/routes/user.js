@@ -1,7 +1,6 @@
 const { application } = require("express");
 const express = require("express");
 const { check } = require("express-validator");
-const multer = require("multer");
 
 const User = require("../controllers/user");
 const validate = require("../middleware/validate");
