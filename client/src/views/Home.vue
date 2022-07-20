@@ -1,5 +1,6 @@
 <script>
 import "@/assets/scss/home.scss";
+import axios from "axios";
 
 export default {
     name: "HomePage",
@@ -7,15 +8,19 @@ export default {
         return {
             error: "",
             domain: "",
+            message: "",
         };
     },
     methods: {
-        checkDomain() {
-            if (!this.domain) {
-                this.error = "va rugam sa introduceti un domeniu";
-                return;
-            } else {
-                this.error = "";
+        async checkDomain() {
+            try {
+                const { data } = await axios.post("/rotld/hi.php", {
+                    domain: this.domain,
+                });
+
+                console.log(JSON.stringify(data, null, 2));
+            } catch (e) {
+                console.log(e);
             }
         },
     },
@@ -62,9 +67,19 @@ export default {
                                 >momentan, pot fi achizitionate doar domenii cu
                                 extensia .ro.</small
                             >
-
+                        </div>
+                        <div class="mt-3">
                             <div v-if="error" class="alert alert-danger">
                                 {{ error }}
+                            </div>
+                            <div
+                                v-else-if="message"
+                                class="alert alert-success"
+                            >
+                                {{ message }}
+                                <button class="btn btn-primary pull-right">
+                                    Continua
+                                </button>
                             </div>
                         </div>
                     </div>

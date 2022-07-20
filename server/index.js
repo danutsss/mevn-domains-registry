@@ -6,7 +6,7 @@ const mongoose = require("mongoose");
 const morgan = require("morgan");
 const helmet = require("helmet");
 const config = require("./config/key");
-const clientRoutes = require("./routes/Clients");
+const passport = require("passport");
 
 // mongoose database options.
 const dbOptions = {
@@ -14,6 +14,7 @@ const dbOptions = {
     useUnifiedTopology: true,
 };
 const PORT = config.PORT || 3000;
+
 // connect to mongodb database.
 mongoose
     .connect(config.MONGODB_URI, dbOptions)
@@ -46,8 +47,12 @@ mongoose
         // adding morgan to log HTTP requests.
         app.use(morgan("combined"));
 
-        // import client routes.
-        app.use("/api/client", clientRoutes);
+        // initialize passport middleware.
+        app.use(passport.initialize());
+        require("./middleware/jwt")(passport);
+
+        // configuring routes.
+        require("./routes/index")(app);
 
         process.env.NODE_ENV === "development" ?? mongoose.set("debug", true);
 

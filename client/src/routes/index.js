@@ -2,6 +2,7 @@ import { createRouter, createWebHistory } from "vue-router";
 import Home from "@/views/Home.vue";
 import Register from "@/views/account/Register.vue";
 import Login from "@/views/account/Login.vue";
+import NotFoundComponent from "@/components/NotFound.vue";
 import Transfer from "@/views/domain/Transfer.vue";
 import { isLoggedIn } from "@/services/apiConnector";
 
@@ -42,6 +43,10 @@ const routes = [
             title: "Transfer domeniu @ 07INTERNET",
         },
     },
+    {
+        path: "/:pathMatch(.*)",
+        component: NotFoundComponent,
+    },
 ];
 
 const router = createRouter({
@@ -51,7 +56,7 @@ const router = createRouter({
 
 router.beforeEach(async (to, from, next) => {
     if (to.meta.authRequired) {
-        if (await isLoggedIn()) {
+        if (isLoggedIn()) {
             next();
         } else {
             next({ name: "login" });

@@ -1,7 +1,8 @@
 <script>
 // import scss file.
 import "@/assets/scss/account/register.scss";
-import apiConnector from "@/services/apiConnector";
+import apiConnector, { ucrmApiRequest } from "@/services/apiConnector";
+import config from "@/config/key";
 
 export default {
     name: "RegisterPage",
@@ -17,6 +18,7 @@ export default {
             address: "",
             city: "",
             county: "",
+            zip_code: "",
             email: "",
             person_type: "",
             message: "",
@@ -45,6 +47,7 @@ export default {
                 address: this.address,
                 city: this.city,
                 county: this.county,
+                zip_code: this.zip_code,
                 email: this.email,
                 person_type: this.person_type,
             };
@@ -52,31 +55,78 @@ export default {
             apiConnector()
                 .post("/api/client/register", dataToSubmit)
                 .then((response) => {
-                    // console.log(response);
-                    const errors = response.data.err?.errors;
-
-                    if (errors) {
-                        if (errors.first_name) {
-                            this.error = errors.first_name.message;
-                        } else if (errors.last_name) {
-                            this.error = errors.last_name.message;
-                        } else if (errors.email) {
-                            this.error = errors.email.message;
-                        } else if (errors.password) {
-                            this.error = errors.password.message;
-                        } else if (errors.address) {
-                            this.error = errors.address.message;
-                        } else if (errors.phone) {
-                            this.error = errors.phone.message;
-                        } else if (errors.city) {
-                            this.error = errors.city.message;
-                        } else if (errors.county) {
-                            this.error = errors.county.message;
-                        } else {
-                            this.error = "";
-                        }
+                    console.log(response);
+                    if (response.data.error) {
+                        this.message = "";
+                        this.error = response.data.error;
                     } else {
+                        this.error = "";
                         this.message = "Registration successful!";
+
+                        const body = {
+                            userIdent: `07NAV${Math.floor(
+                                Math.random() * 1000000
+                            )}`,
+                            previousIsp: "",
+                            isLead: false,
+                            clientType: 1,
+                            companyName: "",
+                            companyRegistrationNumber: this.nr_reg_com
+                                ? this.nr_reg_com
+                                : "",
+                            companyTaxId: "",
+                            companyWebsite: "",
+                            companyContactFirstName: "",
+                            companyContactLastName: "",
+                            firstName: this.first_name,
+                            lastName: this.last_name,
+                            street1: this.address,
+                            street2: "",
+                            city: this.city,
+                            countryId: 205,
+                            zipCode: this.zip_code,
+                            fullAddress: this.address,
+                            invoiceStreet1: this.address,
+                            invoiceCity: this.city,
+                            invoiceCountryId: 205,
+                            invoiceZipCode: this.zip_code,
+                            invoiceAddressSameAsContact: false,
+                            sendInvoiceByPost: false,
+                            invoiceMaturityDays: 14,
+                            stopServiceDue: true,
+                            stopServiceDueDays: 0,
+                            organizationId: 1,
+                            username: this.email,
+                            avatarColor: "#FFC107",
+                            addressGpsLat: 45.9852129,
+                            addressGpsLon: 24.6859225,
+                            generateProformaInvoices: false,
+                            contacts: [
+                                {
+                                    email: this.email,
+                                    phone: this.phone,
+                                    name: `${this.last_name} ${this.first_name}`,
+                                    isBilling: false,
+                                    isContact: false,
+                                    types: [
+                                        {
+                                            name: "General contact",
+                                        },
+                                    ],
+                                },
+                            ],
+                            attributes: [],
+                            password: this.password,
+                            addressData: {},
+                        };
+
+                        ucrmApiRequest(
+                            "POST",
+                            config.ucrmApiUrl + "/clients",
+                            body
+                        ).then(() => {
+                            console.log("[ucrm]: client created.");
+                        });
                     }
                 });
         },
@@ -93,13 +143,13 @@ export default {
                 </div>
             </div>
             <div class="register__container-body">
+                <div v-if="error" class="alert alert-danger">
+                    {{ error }}
+                </div>
+                <div v-else-if="message" class="alert alert-success">
+                    {{ message }}
+                </div>
                 <form @submit.prevent="registerClient">
-                    <div v-if="error" class="alert alert-danger">
-                        {{ error }}
-                    </div>
-                    <div v-else-if="message" class="alert alert-success">
-                        {{ message }}
-                    </div>
                     <div class="row">
                         <div class="col-lg-6 mb-3">
                             <input
@@ -120,6 +170,7 @@ export default {
                                     name="password"
                                     placeholder="parola"
                                     autocomplete="new-password"
+                                    required
                                 />
                             </div>
                         </div>
@@ -136,6 +187,7 @@ export default {
                                     name="confirm_password"
                                     placeholder="confirmare parola"
                                     autocomplete="new-password"
+                                    required
                                 />
                             </div>
                         </div>
@@ -155,6 +207,7 @@ export default {
                                     name="first_name"
                                     placeholder="prenume"
                                     autocomplete="additional-name"
+                                    required
                                 />
                             </div>
                         </div>
@@ -171,6 +224,7 @@ export default {
                                     name="last_name"
                                     placeholder="nume de familie"
                                     autocomplete="additional-name"
+                                    required
                                 />
                             </div>
                         </div>
@@ -185,6 +239,7 @@ export default {
                                     class="form-control has-value"
                                     name="person_type"
                                     placeholder="tip persoana"
+                                    required
                                 >
                                     <option disabled value="">
                                         selecteaza tip persoana
@@ -213,6 +268,7 @@ export default {
                                     class="form-control"
                                     name="cnp"
                                     placeholder="CNP sau cod fiscal"
+                                    required
                                 />
                             </div>
                         </div>
@@ -241,6 +297,7 @@ export default {
                                 name="email"
                                 placeholder="email"
                                 autocomplete="email"
+                                required
                             />
                         </div>
                         <div class="col-lg-6 mb-3">
@@ -254,6 +311,7 @@ export default {
                                 class="form-control"
                                 name="phone"
                                 placeholder="numar de telefon"
+                                required
                             />
                         </div>
                         <div class="col-lg-6 mb-3">
@@ -267,6 +325,7 @@ export default {
                                 class="form-control"
                                 name="address"
                                 placeholder="adresa"
+                                required
                             />
                         </div>
                         <div class="col-lg-6 mb-3">
@@ -280,6 +339,7 @@ export default {
                                 class="form-control"
                                 name="city"
                                 placeholder="localitate"
+                                required
                             />
                         </div>
                         <div class="col-lg-6 mb-3">
@@ -291,6 +351,21 @@ export default {
                                 class="form-control"
                                 name="county"
                                 placeholder="judet"
+                                required
+                            />
+                        </div>
+                        <div class="col-lg-6 mb-3">
+                            <label for="county" class="form-label"
+                                >cod postal</label
+                            >
+                            <input
+                                id="zip_code"
+                                v-model="zip_code"
+                                type="text"
+                                class="form-control"
+                                name="zip_code"
+                                placeholder="cod postal"
+                                required
                             />
                         </div>
                     </div>
