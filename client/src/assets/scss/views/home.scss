@@ -1,1 +1,18 @@
 @import "../variables";
+
+.hero-body {
+  position: relative !important;
+}
+
+#tsparticles {
+  position: absolute !important;
+  top: 0 !important;
+  left: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+}
+
+.main {
+  display: flex;
+  justify-content: space-between;
+}
