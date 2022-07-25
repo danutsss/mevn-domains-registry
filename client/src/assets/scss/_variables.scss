@@ -185,7 +185,20 @@
 }
 
 // colors
-$primary-color: #ffaa17; // primary color.
+$primary-color: #6c63ff; // primary color.
 $secondary-color: #17a5ff; // secondary color.
 $color-black: #212529; // black color.
 $color-white: #fff; // white color.
+
+// utility classes.
+.is-primary {
+  background-color: $primary-color !important;
+}
+
+.small {
+  font-size: 80%;
+}
+
+.bold {
+  font-weight: 800;
+}
