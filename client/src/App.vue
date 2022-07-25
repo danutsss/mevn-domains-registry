@@ -28,5 +28,3 @@ import HeaderComponentVue from "@/components/layout/HeaderComponent.vue";
   <RouterView />
   <FooterComponentVue />
 </template>
-
-<style></style>
