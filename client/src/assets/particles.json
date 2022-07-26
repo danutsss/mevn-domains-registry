@@ -4,7 +4,7 @@
     "enable": false
   },
   "interactivity": {
-    "detectsOn": "canvas",
+    "detectsOn": "window",
     "events": {
       "onClick": {
         "enable": false,
@@ -22,14 +22,15 @@
       "value": "#000"
     },
     "collisions": {
-      "enable": false
+      "enable": true
     },
     "move": {
+      "direction": "none",
       "enable": true,
+      "outMode": "bounce",
+      "random": false,
       "speed": 0.5,
-      "outModes": {
-        "default": "bounce"
-      }
+      "straight": false
     },
     "number": {
       "density": {
