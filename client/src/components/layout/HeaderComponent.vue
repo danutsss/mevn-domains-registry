@@ -29,13 +29,7 @@ document.addEventListener("DOMContentLoaded", () => {
       aria-label="main navigation"
     >
       <div class="navbar-brand">
-        <a class="navbar-item" href="/">
-          <img
-            src="http://bunicutzii.ro/images/bunicutzii.png"
-            width="112"
-            height="28"
-          />
-        </a>
+        <a class="navbar-item primary bold" href="/">07INTERNET</a>
 
         <a
           role="button"
