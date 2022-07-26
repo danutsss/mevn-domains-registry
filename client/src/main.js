@@ -5,7 +5,7 @@ import Particles from "particles.vue3";
 import App from "./App.vue";
 import router from "./router";
 
-import "@/assets/scss/main.scss";
+import "@/assets/css/main.css";
 
 const app = createApp(App).use(Particles);
 

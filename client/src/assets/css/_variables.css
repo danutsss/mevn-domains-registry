@@ -1,4 +1,4 @@
-// fonts
+/* fonts */
 /* latin-ext */
 @font-face {
   font-family: "Sora";
@@ -184,15 +184,16 @@
     U+FEFF, U+FFFD;
 }
 
-// colors
-$primary-color: #6c63ff; // primary color.
-$secondary-color: #17a5ff; // secondary color.
-$color-black: #212529; // black color.
-$color-white: #fff; // white color.
+:root {
+  --primary-color: #6c63ff;
+  --secondary-color: #17a5ff;
+  --color-black: #212529;
+  --color-white: #fff;
+}
 
-// utility classes.
+/* utility classes */
 .is-primary {
-  background-color: $primary-color !important;
+  background-color: var(--primary-color) !important;
 }
 
 .small {

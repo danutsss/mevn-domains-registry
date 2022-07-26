@@ -1,12 +1,10 @@
 {
-  "autoPlay": true,
-  "background": {
-    "color": {
-      "value": "#232741"
-    }
-  },
   "fpsLimit": 120,
+  "fullScreen": {
+    "enable": false
+  },
   "interactivity": {
+    "detectsOn": "canvas",
     "events": {
       "onClick": {
         "enable": false,
@@ -21,27 +19,24 @@
   },
   "particles": {
     "color": {
-      "value": "#ffffff"
+      "value": "#000"
     },
     "collisions": {
       "enable": false
     },
     "move": {
-      "direction": "none",
       "enable": true,
+      "speed": 0.5,
       "outModes": {
         "default": "bounce"
-      },
-      "random": false,
-      "speed": 1,
-      "straight": false
+      }
     },
     "number": {
       "density": {
         "enable": true,
         "area": 420
       },
-      "value": 80
+      "value": 420
     },
     "opacity": {
       "value": 0.5
@@ -50,7 +45,7 @@
       "type": "circle"
     },
     "size": {
-      "value": { "min": 1, "max": 5 }
+      "value": 0.3
     }
   },
   "detectRetina": true

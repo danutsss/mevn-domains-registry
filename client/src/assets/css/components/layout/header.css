@@ -1,4 +1,4 @@
-@import "../../variables";
+@import "../../_variables.css";
 
 nav {
   border-bottom: 1px solid #dee2e6 !important;

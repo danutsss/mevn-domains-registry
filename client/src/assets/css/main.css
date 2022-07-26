@@ -1,0 +1,33 @@
+@charset "utf-8";
+
+/* tailwindcss */
+@import "tailwindcss/base";
+@import "tailwindcss/components";
+@import "tailwindcss/utilities";
+
+/* imported bulma for scss */
+@import "../../../node_modules/bulma/css/bulma.css";
+
+/* imported layout components scss: header & footer. */
+@import "./components/layout/footer.css";
+@import "./components/layout/header.css";
+
+/* imported views scss. */
+@import "./views/home.css";
+
+body {
+  display: flex;
+  min-height: 100vh;
+  flex-direction: column;
+  font-family: "Sora", sans-serif !important;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-size: 16px;
+  font-weight: 500 !important;
+}
+
+#app {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}

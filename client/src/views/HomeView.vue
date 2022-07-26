@@ -21,58 +21,7 @@ onMounted(() => {
         id="tsparticles"
         :particles-init="particlesInit"
         :particles-loaded="particlesLoaded"
-        :options="{
-          fpsLimit: 120,
-          fullScreen: {
-            enable: false,
-          },
-          interactivity: {
-            detectsOn: 'canvas',
-            events: {
-              onClick: {
-                enable: false,
-                mode: 'push',
-              },
-              onHover: {
-                enable: false,
-                mode: 'repulse',
-              },
-              resize: true,
-            },
-          },
-          particles: {
-            color: {
-              value: '#000',
-            },
-            collisions: {
-              enable: false,
-            },
-            move: {
-              enable: true,
-              speed: 0.5,
-              outModes: {
-                default: 'bounce',
-              },
-            },
-            number: {
-              density: {
-                enable: true,
-                area: 420,
-              },
-              value: 420,
-            },
-            opacity: {
-              value: 0.5,
-            },
-            shape: {
-              type: 'circle',
-            },
-            size: {
-              value: 0.3,
-            },
-          },
-          detectRetina: true,
-        }"
+        url="./src/assets/particles.json"
       />
       <div class="main container">
         <div class="left__container">
