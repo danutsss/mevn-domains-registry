@@ -31,3 +31,15 @@ body {
   display: flex;
   flex-direction: column;
 }
+
+.btn {
+  @apply shadow-md py-3 px-6 rounded-md transition duration-300;
+}
+
+.btn-purple {
+  @apply bg-primary-500 text-white;
+}
+
+.btn-white {
+  @apply bg-white;
+}
