@@ -259,18 +259,10 @@
 }
 
 /* utility classes */
-.is-primary {
-  background-color: var(--purple-500) !important;
-}
-
-.primary {
-  color: var(--teal-500);
-}
-
 .small {
   font-size: 80%;
 }
 
-.bold {
-  font-weight: 800;
+.w-75 {
+  width: 75% !important;
 }
