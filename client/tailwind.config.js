@@ -3,9 +3,6 @@ module.exports = {
   content: ["./index.html", "./src/**/*.{vue,js,ts,jsx,tsx}"],
   important: true,
   theme: {
-    fontSize: {
-      xxs: ".55rem",
-    },
     extend: {
       container: {
         center: true,
@@ -15,6 +12,9 @@ module.exports = {
           xl: "1124px",
           "2xl": "1124px",
         },
+      },
+      fontSize: {
+        xxs: ".55rem",
       },
       colors: {
         transparent: "transparent",
