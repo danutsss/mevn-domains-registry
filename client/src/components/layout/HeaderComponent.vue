@@ -29,7 +29,30 @@ document.addEventListener("DOMContentLoaded", () => {
       aria-label="main navigation"
     >
       <div class="navbar-brand">
-        <a class="navbar-item primary bold" href="/">07INTERNET</a>
+        <div
+          class="flex items-center justify-center md:justify-start gap-12 ml-4 mr-4"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            className="h-6 w-6"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+            strokeWidth="{2}"
+            width="24"
+            height="24"
+            class="text-secondary-500"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9"
+            />
+          </svg>
+          <span class="text-blue-grey-900" style="margin-left: -40px"
+            >ZERO SAPTE SERVICES</span
+          >
+        </div>
 
         <a
           role="button"
@@ -46,13 +69,19 @@ document.addEventListener("DOMContentLoaded", () => {
 
       <div id="navbarBasicExample" class="navbar-menu">
         <div class="navbar-start">
-          <slot name="link"></slot>
-
           <div class="navbar-item has-dropdown is-hoverable">
-            <a class="navbar-link"> mai mult </a>
+            <a class="navbar-link">Domains</a>
 
             <div class="navbar-dropdown is-boxed">
-              <slot name="dropdown-link"></slot>
+              <slot name="domain-dropdown-link"></slot>
+            </div>
+          </div>
+
+          <div class="navbar-item has-dropdown is-hoverable">
+            <a class="navbar-link">More</a>
+
+            <div class="navbar-dropdown is-boxed">
+              <slot name="more-dropdown-link"></slot>
             </div>
           </div>
         </div>
