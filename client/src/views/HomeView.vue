@@ -1,4 +1,44 @@
-<script setup></script>
+<script>
+import axios from "axios";
+
+export default {
+  name: "HomepageView",
+  data() {
+    return {
+      domain: "",
+      message: "",
+    };
+  },
+  methods: {
+    async checkDomain(domain) {
+      this.domain = domain;
+      this.message = "";
+      try {
+        if (domain.length > 0) {
+          await axios
+            .post("http://localhost/rotld/hi.php", {
+              domain: domain,
+            })
+            .then(response => {
+              response.data == "Available"
+                ? (this.message = "Domain is available for registration.")
+                : (this.message = "Domain is not available.");
+            });
+        } else {
+          this.message = "Please enter a domain.";
+        }
+
+        const domainRegex = /^[-a-z0-9]+\.ro$/;
+        !domainRegex.test(domain)
+          ? (this.message = "You can check only .ro domains.")
+          : "cacuta";
+      } catch (e) {
+        console.log(e);
+      }
+    },
+  },
+};
+</script>
 <template>
   <section class="relative">
     <div
@@ -19,12 +59,46 @@
           you can do it for an unbeatable price.
         </p>
         <div class="flex justify-center flex-wrap gap-6">
-          <button
-            type="button"
-            class="btn btn-purple hover:bg-white hover:text-black"
+          <form method="POST" @submit.prevent="checkDomain(domain)">
+            <div class="field has-addons">
+              <div class="control">
+                <input
+                  v-model="domain"
+                  class="input mb-4"
+                  type="text"
+                  placeholder="ex.: bunicutzii.ro"
+                />
+              </div>
+              <div class="control">
+                <button
+                  type="submit"
+                  class="button bg-secondary-300 text-white"
+                >
+                  Search
+                </button>
+              </div>
+            </div>
+          </form>
+        </div>
+        <div
+          v-if="message"
+          class="flex p-4 text-sm text-blue-700 bg-blue-100 rounded-lg dark:bg-blue-200 dark:text-blue-800"
+          role="alert"
+        >
+          <svg
+            aria-hidden="true"
+            class="inline flex-shrink-0 mr-3 w-5 h-5"
+            fill="currentColor"
+            viewBox="0 0 20 20"
+            xmlns="http://www.w3.org/2000/svg"
           >
-            Get started
-          </button>
+            <path
+              fill-rule="evenodd"
+              d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z"
+              clip-rule="evenodd"
+            ></path>
+          </svg>
+          {{ message }}
         </div>
       </div>
       <!-- content end -->
@@ -48,7 +122,7 @@
   </section>
 
   <!-- features start -->
-  <section class="bg-grey py-40 mt-20 lg:mt-60">
+  <section id="features" class="bg-grey py-40 mt-20 lg:mt-60">
     <!-- heading start -->
     <div class="sm:w-3/4 lg:w-5/12 mx-auto px-2">
       <h1 class="text-3xl text-center text-blue-grey-900">Features</h1>
