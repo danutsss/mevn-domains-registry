@@ -15,6 +15,10 @@
 /* imported views scss. */
 @import "./views/home.css";
 
+html {
+  scroll-behavior: smooth;
+}
+
 body {
   display: flex;
   min-height: 100vh;
