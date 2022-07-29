@@ -20,5 +20,11 @@ export default defineConfig({
       secure: false,
       ws: true,
     },
+    "^/rotld": {
+      target: "http://localhost:80",
+      changeOrigin: true,
+      secure: false,
+      ws: true,
+    },
   },
 });
