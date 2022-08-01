@@ -16,12 +16,16 @@ module.exports = {
       fontSize: {
         xxs: ".55rem",
       },
+      borderWidth: {
+        1: "1px",
+      },
       colors: {
         transparent: "transparent",
         current: "currentColor",
         white: "#ffffff",
         black: "#212529",
         grey: "#f8f9fa",
+        border_grey: "#dee2e6",
         primary: {
           50: "#e6e6ff",
           100: "#c4c6ff",
