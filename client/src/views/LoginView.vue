@@ -1,10 +1,11 @@
 <script setup>
 import { onMounted, ref } from "vue";
 import { LockClosedIcon } from "@heroicons/vue/solid";
-import apiConnector from "@/services/apiConnector";
+// import apiConnector from "@/services/apiConnector";
+import { useAuthStore } from "@/stores";
 
-const email = ref();
-const password = ref();
+const email = ref("");
+const password = ref("");
 
 onMounted(() => {
   email.value = "";
@@ -12,14 +13,10 @@ onMounted(() => {
 });
 
 const loginUser = async () => {
-  await apiConnector()
-    .post("api/auth/login", {
-      email: email.value,
-      password: password.value,
-    })
-    .then(response => {
-      console.log(response);
-    })
+  const authStore = useAuthStore();
+
+  return authStore
+    .login(email.value, password.value)
     .catch(error => console.log(error));
 };
 </script>
