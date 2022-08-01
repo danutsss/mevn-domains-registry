@@ -12,9 +12,14 @@ export default {
   methods: {
     async checkDomain(domain) {
       this.domain = domain;
-      this.message = "";
       try {
-        if (domain.length > 0) {
+        const domainRegex = /^[-a-z0-9]+\.ro$/;
+        if (!domain) {
+          this.message = "Please enter a domain.";
+        } else if (!domainRegex.test(domain)) {
+          this.message = "You can check only .ro domains.";
+          return;
+        } else {
           await axios
             .post("http://localhost/rotld/hi.php", {
               domain: domain,
@@ -24,14 +29,7 @@ export default {
                 ? (this.message = "Domain is available for registration.")
                 : (this.message = "Domain is not available.");
             });
-        } else {
-          this.message = "Please enter a domain.";
         }
-
-        const domainRegex = /^[-a-z0-9]+\.ro$/;
-        !domainRegex.test(domain)
-          ? (this.message = "You can check only .ro domains.")
-          : "cacuta";
       } catch (e) {
         console.log(e);
       }
@@ -82,7 +80,7 @@ export default {
         </div>
         <div
           v-if="message"
-          class="flex p-4 text-sm text-blue-700 bg-blue-100 rounded-lg dark:bg-blue-200 dark:text-blue-800"
+          class="flex p-4 text-sm items-center text-blue-700 bg-blue-100 rounded-lg dark:bg-blue-200 dark:text-blue-800"
           role="alert"
         >
           <svg
@@ -99,6 +97,13 @@ export default {
             ></path>
           </svg>
           {{ message }}
+          <button
+            v-if="message.includes('registration')"
+            class="button btn-teal text-white ml-2"
+            onclick="registerDomain()"
+          >
+            Register
+          </button>
         </div>
       </div>
       <!-- content end -->
