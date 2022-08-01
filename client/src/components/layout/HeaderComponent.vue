@@ -24,7 +24,7 @@ document.addEventListener("DOMContentLoaded", () => {
 <template>
   <header>
     <nav
-      class="navbar is-transparent"
+      class="fixed top-0 left-0 right-0 navbar is-transparent border-solid border-b-1 border-border_grey"
       role="navigation"
       aria-label="main navigation"
     >
