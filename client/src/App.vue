@@ -33,7 +33,7 @@ const particlesLoaded = async container => {
         <strong class="text-white font-semibold">Register</strong>
       </RouterLink>
       <RouterLink to="/login" class="button is-light font-medium"
-        >Log in</RouterLink
+        >Login</RouterLink
       >
     </template>
   </HeaderComponentVue>

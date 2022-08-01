@@ -1,6 +1,32 @@
+<script setup>
+import { onMounted, ref } from "vue";
+import { LockClosedIcon } from "@heroicons/vue/solid";
+import apiConnector from "@/services/apiConnector";
+
+const email = ref();
+const password = ref();
+
+onMounted(() => {
+  email.value = "";
+  password.value = "";
+});
+
+const loginUser = async () => {
+  await apiConnector()
+    .post("api/auth/login", {
+      email: email.value,
+      password: password.value,
+    })
+    .then(response => {
+      console.log(response);
+    })
+    .catch(error => console.log(error));
+};
+</script>
+
 <template>
   <div
-    class="min-h-full flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8"
+    class="relative min-h-full flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8"
   >
     <div class="max-w-md w-full space-y-8">
       <div>
@@ -20,7 +46,7 @@
             d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9"
           />
         </svg>
-        <h2 class="mt-6 text-center text-3xl font-extrabold text-blue-grey-900">
+        <h2 class="mt-3 text-center text-3xl font-extrabold text-blue-grey-900">
           Sign in to your account
         </h2>
         <p class="mt-2 text-center text-sm text-gray-600">
@@ -33,13 +59,14 @@
           </a>
         </p>
       </div>
-      <form class="mt-8 space-y-6" method="POST">
+      <form class="mt-8 space-y-6" method="POST" @submit.prevent="loginUser()">
         <input type="hidden" name="remember" value="true" />
         <div class="rounded-md shadow-sm -space-y-px">
           <div>
             <label for="email-address" class="sr-only">Email address</label>
             <input
               id="email-address"
+              v-model="email"
               name="email"
               type="email"
               autocomplete="email"
@@ -52,12 +79,13 @@
             <label for="password" class="sr-only">Password</label>
             <input
               id="password"
+              v-model="password"
               name="password"
               type="password"
               autocomplete="current-password"
-              required
               class="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
               placeholder="Password"
+              required
             />
           </div>
         </div>
@@ -66,8 +94,8 @@
           <div class="flex items-center">
             <input
               id="remember-me"
-              name="remember-me"
               type="checkbox"
+              name="remember-me"
               class="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded"
             />
             <label for="remember-me" class="ml-2 block text-sm text-gray-900">
@@ -103,7 +131,3 @@
     </div>
   </div>
 </template>
-
-<script setup>
-import { LockClosedIcon } from "@heroicons/vue/solid";
-</script>
