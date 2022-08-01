@@ -1,4 +1,13 @@
 import { createRouter, createWebHistory } from "vue-router";
+import { useAuthStore } from "@/stores/auth.store";
+
+export const authGuard = (to, from, next) => {
+  const loggedIn = useAuthStore().user;
+
+  if (!loggedIn) return next("/login");
+
+  next();
+};
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -37,6 +46,12 @@ const router = createRouter({
       path: "/register",
       name: "register",
       component: () => import("@/views/RegisterView.vue"),
+    },
+    {
+      path: "/dashboard",
+      name: "dashboard",
+      component: () => import("@/views/Dashboard/DashboardView.vue"),
+      beforeEnter: authGuard,
     },
   ],
 });
