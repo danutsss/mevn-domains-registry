@@ -112,7 +112,7 @@ export default {
       <div class="flex justify-center flex-1 mb-10 md:mb-16 lg:mb-0 z-10">
         <img
           class="w-5/6 h-5/6 sm:w-3/4 sm:h-3/4 md:w-full md:h-full"
-          src="src/assets/img/svgs/domain_search.svg"
+          src="/src/assets/img/svgs/domain_search.svg"
           alt="domain_search"
         />
       </div>
@@ -147,7 +147,7 @@ export default {
         <div class="flex flex-1 justify-center z-10 mb-10 lg:mb-0">
           <img
             class="w-5/6 h-5/6 sm:w-3/4 sm:h-3/4 md:w-full md:h-full"
-            src="src/assets/img/svgs/user_flow.svg"
+            src="/src/assets/img/svgs/user_flow.svg"
             alt="user_flow"
           />
         </div>
@@ -183,7 +183,7 @@ export default {
         <div class="flex flex-1 justify-center z-10 mb-10 lg:mb-0">
           <img
             class="w-5/6 h-5/6 sm:w-3/4 sm:h-3/4 md:w-full md:h-full"
-            src="src/assets/img/svgs/affordable.svg"
+            src="/src/assets/img/svgs/affordable.svg"
             alt="affordable"
           />
         </div>
@@ -219,7 +219,7 @@ export default {
         <div class="flex flex-1 justify-center z-10 mb-10 lg:mb-0">
           <img
             class="w-5/6 h-5/6 sm:w-3/4 sm:h-3/4 md:w-full md:h-full"
-            src="src/assets/img/svgs/reliable.svg"
+            src="/src/assets/img/svgs/reliable.svg"
             alt="reliable"
           />
         </div>
@@ -254,7 +254,7 @@ export default {
         <div class="flex flex-1 justify-center z-10 mb-10 lg:mb-0">
           <img
             class="w-5/6 h-5/6 sm:w-3/4 sm:h-3/4 md:w-full md:h-full"
-            src="src/assets/img/svgs/security.svg"
+            src="/src/assets/img/svgs/security.svg"
             alt="secured"
           />
         </div>
