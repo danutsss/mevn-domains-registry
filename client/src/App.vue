@@ -2,16 +2,9 @@
 import { RouterLink, RouterView } from "vue-router";
 import FooterComponentVue from "@/components/layout/FooterComponent.vue";
 import HeaderComponentVue from "@/components/layout/HeaderComponent.vue";
-import { loadFull } from "tsparticles";
+import { useAuthStore } from "@/stores";
 
-const particlesInit = async engine => {
-  await loadFull(engine);
-};
-
-const particlesLoaded = async container => {
-  // console.log("Particles container loaded", container);
-  return container;
-};
+const authStore = useAuthStore();
 </script>
 
 <template>
@@ -28,21 +21,29 @@ const particlesLoaded = async container => {
       <hr class="navbar-divider" />
       <RouterLink to="/report" class="navbar-item">Report a problem</RouterLink>
     </template>
-    <template #buttons-link>
-      <RouterLink to="/register" class="button bg-primary-500">
-        <strong class="text-white font-semibold">Register</strong>
+    <template v-if="!authStore.user" #buttons-link>
+      <RouterLink
+        to="/register"
+        class="button bg-primary-500 text-white font-semibold"
+        >Register
       </RouterLink>
       <RouterLink to="/login" class="button is-light font-medium"
         >Login</RouterLink
       >
     </template>
+    <template v-else #buttons-link>
+      <RouterLink
+        to="/dashboard"
+        class="button bg-primary-500 text-white font-semibold"
+      >
+        Dashboard
+      </RouterLink>
+
+      <button class="button is-light font-semibold" @click="authStore.logout()">
+        Logout
+      </button>
+    </template>
   </HeaderComponentVue>
-  <Particles
-    id="tsparticles"
-    :particles-init="particlesInit"
-    :particles-loaded="particlesLoaded"
-    url="./src/assets/particles.json"
-  />
   <RouterView />
   <FooterComponentVue />
 </template>
