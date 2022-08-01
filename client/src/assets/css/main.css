@@ -5,15 +5,11 @@
 @import "tailwindcss/components";
 @import "tailwindcss/utilities";
 
-/* imported bulma for scss */
+/* imported bulma for css */
 @import "../../../node_modules/bulma/css/bulma.css";
 
-/* imported layout components scss: header & footer. */
-@import "./components/layout/footer.css";
-@import "./components/layout/header.css";
-
-/* imported views scss. */
-@import "./views/home.css";
+/* imported variables file */
+@import "./_variables.css";
 
 html {
   scroll-behavior: smooth;
@@ -50,4 +46,13 @@ body {
 
 .btn-white {
   @apply bg-white;
+}
+
+/* utility classes */
+.small {
+  font-size: 80%;
+}
+
+.w-75 {
+  width: 75% !important;
 }
