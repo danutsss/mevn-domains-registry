@@ -23,7 +23,9 @@ export const useAuthStore = defineStore({
       localStorage.setItem("user", JSON.stringify(user.data));
 
       // redirect to previous url or default to home page.
-      this.returnUrl ? router.push(this.returnUrl) : router.push("/");
+      setTimeout(() => {
+        this.returnUrl ? router.push(this.returnUrl) : router.push("/");
+      }, 2000);
     },
 
     logout() {
