@@ -1,40 +1,37 @@
-<script>
+<script setup>
 import axios from "axios";
+import { ref, onMounted } from "vue";
 
-export default {
-  name: "HomepageView",
-  data() {
-    return {
-      domain: "",
-      message: "",
-    };
-  },
-  methods: {
-    async checkDomain(domain) {
-      this.domain = domain;
-      try {
-        const domainRegex = /^[-a-z0-9]+\.ro$/;
-        if (!domain) {
-          this.message = "Please enter a domain.";
-        } else if (!domainRegex.test(domain)) {
-          this.message = "You can check only .ro domains.";
-          return;
-        } else {
-          await axios
-            .post("http://localhost/rotld/hi.php", {
-              domain: domain,
-            })
-            .then(response => {
-              response.data == "Available"
-                ? (this.message = "Domain is available for registration.")
-                : (this.message = "Domain is not available.");
-            });
-        }
-      } catch (e) {
-        console.log(e);
-      }
-    },
-  },
+const domain = ref();
+const message = ref();
+
+onMounted(() => {
+  domain.value = "";
+  message.value = "";
+});
+
+const checkDomain = async () => {
+  try {
+    const domainRegex = /^[-a-z0-9]+\.ro$/;
+    if (!domain.value) {
+      message.value = "Please enter a domain!";
+    } else if (!domainRegex.test(domain.value)) {
+      message.value = "You can check only `.ro` domains.";
+      return;
+    } else {
+      await axios
+        .post("http://localhost/rotld/hi.php", {
+          domain: domain.value,
+        })
+        .then(response => {
+          response.data == "Available"
+            ? (message.value = "Domain is available for registration.")
+            : (message.value = "Domain is already registered.");
+        });
+    }
+  } catch (e) {
+    console.log(e);
+  }
 };
 </script>
 <template>
@@ -57,7 +54,7 @@ export default {
           you can do it for an unbeatable price.
         </p>
         <div class="flex justify-center flex-wrap gap-6">
-          <form method="POST" @submit.prevent="checkDomain(domain)">
+          <form method="POST" @submit.prevent="checkDomain()">
             <div class="field has-addons">
               <div class="control">
                 <input
