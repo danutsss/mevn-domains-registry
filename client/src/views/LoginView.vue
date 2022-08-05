@@ -1,29 +1,41 @@
 <script setup>
 import { onMounted, ref } from "vue";
 import { LockClosedIcon } from "@heroicons/vue/solid";
-// import apiConnector from "@/services/apiConnector";
 import { useAuthStore } from "@/stores";
 
-const email = ref("");
-const password = ref("");
+const email = ref();
+const password = ref();
+const loginMsg = ref();
+const errorMsg = ref();
 
 onMounted(() => {
   email.value = "";
   password.value = "";
+  loginMsg.value = "";
+  errorMsg.value = "";
 });
 
 const loginUser = async () => {
   const authStore = useAuthStore();
 
-  return authStore
+  return await authStore
     .login(email.value, password.value)
-    .catch(error => console.log(error));
+    .then(response => {
+      errorMsg.value = "";
+      loginMsg.value = response
+        ? response
+        : "Login successfull. You'll be redirected.";
+    })
+    .catch(error => {
+      loginMsg.value = "";
+      errorMsg.value = error.response.data.message;
+    });
 };
 </script>
 
 <template>
   <div
-    class="relative min-h-full flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8"
+    class="relative min-h-full flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8 mt-10"
   >
     <div class="max-w-md w-full space-y-8">
       <div>
@@ -56,6 +68,59 @@ const loginUser = async () => {
           </a>
         </p>
       </div>
+
+      <div
+        v-if="errorMsg"
+        class="bg-red-vivid-100 border-t-4 border-red-vivid-500 rounded-b text-red-vivid-900 px-4 py-3 shadow-md"
+        role="alert"
+      >
+        <div class="flex">
+          <div class="py-1">
+            <svg
+              class="fill-current h-6 w-6 text-red-vivid-500 mr-4"
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 20 20"
+            >
+              <path
+                d="M2.93 17.07A10 10 0 1 1 17.07 2.93 10 10 0 0 1 2.93 17.07zm12.73-1.41A8 8 0 1 0 4.34 4.34a8 8 0 0 0 11.32 11.32zM9 11V9h2v6H9v-4zm0-6h2v2H9V5z"
+              />
+            </svg>
+          </div>
+          <div>
+            <p class="font-bold">Error! Something went wrong.</p>
+            <p class="text-sm">
+              {{ errorMsg }}
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div
+        v-if="loginMsg"
+        class="bg-teal-100 border-t-4 border-teal-500 rounded-b text-teal-900 px-4 py-3 shadow-md"
+        role="alert"
+      >
+        <div class="flex">
+          <div class="py-1">
+            <svg
+              class="fill-current h-6 w-6 text-teal-500 mr-4"
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 20 20"
+            >
+              <path
+                d="M2.93 17.07A10 10 0 1 1 17.07 2.93 10 10 0 0 1 2.93 17.07zm12.73-1.41A8 8 0 1 0 4.34 4.34a8 8 0 0 0 11.32 11.32zM9 11V9h2v6H9v-4zm0-6h2v2H9V5z"
+              />
+            </svg>
+          </div>
+          <div>
+            <p class="font-bold">Informational message</p>
+            <p class="text-sm">
+              {{ loginMsg }}
+            </p>
+          </div>
+        </div>
+      </div>
+
       <form class="mt-8 space-y-6" method="POST" @submit.prevent="loginUser()">
         <input type="hidden" name="remember" value="true" />
         <div class="rounded-md shadow-sm -space-y-px">
