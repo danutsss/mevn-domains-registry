@@ -18,6 +18,7 @@ const county = ref();
 const zip_code = ref();
 const errorMsg = ref();
 const passStrengthMsg = ref();
+const successMsg = ref();
 
 onMounted(() => {
   first_name.value = "";
@@ -35,6 +36,7 @@ onMounted(() => {
   zip_code.value = "";
   errorMsg.value = "";
   passStrengthMsg.value = "";
+  successMsg.value = "";
 });
 
 const emptyFields = () => {
@@ -76,7 +78,7 @@ const isEmail = () => {
   }
 };
 
-const numberFormat = () => {
+const phoneNoFormat = () => {
   const numberRegex = /\+\d{2}\.\d{9}/;
   if (numberRegex.test(phone_number.value)) {
     return true;
@@ -109,6 +111,7 @@ const checkPassword = () => {
   // Display the status (for the moment, in the console).
   switch (checksPassed) {
     case 0:
+      passStrengthMsg.value = "";
       break;
     case 1:
       passStrengthMsg.value = "Password is weak.";
@@ -137,10 +140,9 @@ const registerUser = async () => {
   if (emptyFields()) return (errorMsg.value = "Please fill all fields!");
   if (!passwordMatch()) return (errorMsg.value = "Passwords do not match!");
   if (!isEmail()) return (errorMsg.value = "Invalid email!");
-  if (!numberFormat())
+  if (!phoneNoFormat())
     return (errorMsg.value =
       "Invalid phone number (mandatory format: +40.xxxxxxxxx!");
-  if (!checkPassword()) return (errorMsg.value = "Invalid password!");
 
   return await apiConnector()
     .post("api/auth/register", {
@@ -159,6 +161,8 @@ const registerUser = async () => {
       zip_code: zip_code.value,
     })
     .then(response => {
+      errorMsg.value = "";
+      successMsg.value = response.data.message;
       console.log(response);
     })
     .catch(error => console.log(error));
@@ -222,6 +226,32 @@ const registerUser = async () => {
             <p class="font-bold">Error! Something went wrong.</p>
             <p class="text-sm">
               {{ errorMsg }}
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div
+        v-if="successMsg"
+        class="bg-teal-100 border-t-4 border-teal-500 rounded-b text-teal-900 px-4 py-3 shadow-md"
+        role="alert"
+      >
+        <div class="flex">
+          <div class="py-1">
+            <svg
+              class="fill-current h-6 w-6 text-teal-500 mr-4"
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 20 20"
+            >
+              <path
+                d="M2.93 17.07A10 10 0 1 1 17.07 2.93 10 10 0 0 1 2.93 17.07zm12.73-1.41A8 8 0 1 0 4.34 4.34a8 8 0 0 0 11.32 11.32zM9 11V9h2v6H9v-4zm0-6h2v2H9V5z"
+              />
+            </svg>
+          </div>
+          <div>
+            <p class="font-bold">Informational message</p>
+            <p class="text-sm">
+              {{ successMsg }}
             </p>
           </div>
         </div>
@@ -382,8 +412,10 @@ const registerUser = async () => {
               clip-rule="evenodd"
             ></path>
           </svg>
+
           <div class="ml-3 text-sm font-medium text-blue-700">
-            Informational message: {{ passStrengthMsg }}
+            Informational message:
+            <strong class="text-blue-700">{{ passStrengthMsg }}</strong>
           </div>
           <button
             type="button"
