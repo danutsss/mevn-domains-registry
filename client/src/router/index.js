@@ -53,6 +53,11 @@ const router = createRouter({
       component: () => import("@/views/Dashboard/DashboardView.vue"),
       beforeEnter: authGuard,
     },
+    {
+      path: "/cart",
+      name: "shopping-cart",
+      component: () => import("@/views/CartView.vue"),
+    },
   ],
 });
 
