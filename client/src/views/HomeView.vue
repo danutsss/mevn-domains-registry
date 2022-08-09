@@ -1,6 +1,7 @@
 <script setup>
 import axios from "axios";
 import { ref, onMounted } from "vue";
+import { useCartStore } from "@/stores";
 
 const domain = ref();
 const message = ref();
@@ -9,6 +10,12 @@ onMounted(() => {
   domain.value = "";
   message.value = "";
 });
+
+const addIntoCart = async () => {
+  const cartStore = useCartStore();
+
+  return await cartStore.addItem(domain.value);
+};
 
 const checkDomain = async () => {
   try {
@@ -97,7 +104,7 @@ const checkDomain = async () => {
           <button
             v-if="message.includes('registration')"
             class="button btn-teal text-white ml-2"
-            onclick="registerDomain()"
+            @click="addIntoCart()"
           >
             Register
           </button>
