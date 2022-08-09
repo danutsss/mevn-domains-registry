@@ -1,4 +1,5 @@
 import axios from "axios";
+import config from "@/config/dev";
 
 export const isLoggedIn = () => {
   return !!localStorage.getItem("token");
@@ -15,14 +16,14 @@ export default () => {
   });
 };
 
-// export const ucrmApiRequest = (method, url, data) => {
-//   return axios({
-//     method: method,
-//     url: url,
-//     data: data,
-//     headers: {
-//       "Content-Type": "application/json",
-//       "X-Auth-App-Key": config.ucrmApiKey,
-//     },
-//   });
-// };
+export const ucrmApiRequest = (method, url, data) => {
+  return axios({
+    method: method,
+    url: url,
+    data: data,
+    headers: {
+      "Content-Type": "application/json",
+      "X-Auth-App-Key": config.ucrmApiKey,
+    },
+  });
+};

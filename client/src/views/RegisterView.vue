@@ -1,7 +1,8 @@
 <script setup>
 import { LockClosedIcon } from "@heroicons/vue/solid";
 import { onMounted, ref } from "vue";
-import apiConnector from "../services/apiConnector";
+import apiConnector, { ucrmApiRequest } from "../services/apiConnector";
+import config from "@/config/dev";
 
 const first_name = ref();
 const last_name = ref();
@@ -163,6 +164,69 @@ const registerUser = async () => {
     .then(response => {
       errorMsg.value = "";
       successMsg.value = response.data.message;
+
+      // if account is created, redirect to login page
+      if (successMsg.value) {
+        const body = {
+          userIdent: `07NAV${Math.floor(Math.random() * 1000000)}`,
+          previousIsp: "",
+          isLead: false,
+          clientType: 1,
+          companyName: "",
+          companyRegistrationNumber: nr_reg_com.value ? nr_reg_com.value : "",
+          companyTaxId: "",
+          companyWebsite: "",
+          companyContactFirstName: "",
+          companyContactLastName: "",
+          firstName: first_name.value,
+          lastName: last_name.value,
+          street1: address.value,
+          street2: "",
+          city: city.value,
+          countryId: 205,
+          zipCode: zip_code.value,
+          fullAddress: address.value,
+          invoiceStreet1: address.value,
+          invoiceCity: city.value,
+          invoiceCountryId: 205,
+          invoiceZipCode: zip_code.value,
+          invoiceAddressSameAsContact: false,
+          sendInvoiceByPost: false,
+          invoiceMaturityDays: 14,
+          stopServiceDue: true,
+          stopServiceDueDays: 0,
+          organizationId: 1,
+          username: email.value,
+          avatarColor: "#FFC107",
+          addressGpsLat: 45.9852129,
+          addressGpsLon: 24.6859225,
+          generateProformaInvoices: false,
+          contacts: [
+            {
+              email: email.value,
+              phone: phone_number.value,
+              name: `${last_name.value} ${first_name.value}`,
+              isBilling: false,
+              isContact: false,
+              types: [
+                {
+                  name: "General contact",
+                },
+              ],
+            },
+          ],
+          attributes: [],
+          password: password.value,
+          addressData: {},
+        };
+
+        ucrmApiRequest("POST", config.ucrmApiUrl + "/clients", body).then(
+          () => {
+            console.log("[ucrm]: client created.");
+          },
+        );
+      }
+
       console.log(response);
     })
     .catch(error => console.log(error));
