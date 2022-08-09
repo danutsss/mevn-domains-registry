@@ -31,7 +31,7 @@ const checkDomain = async () => {
           domain: domain.value,
         })
         .then(response => {
-          response.data == "Available"
+          response.data === "Available"
             ? (message.value = "Domain is available for registration.")
             : (message.value = "Domain is already registered.");
         });

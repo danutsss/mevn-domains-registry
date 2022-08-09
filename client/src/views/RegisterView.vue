@@ -1,4 +1,5 @@
 <script setup>
+import axios from "axios";
 import { LockClosedIcon } from "@heroicons/vue/solid";
 import { onMounted, ref } from "vue";
 import apiConnector, { ucrmApiRequest } from "../services/apiConnector";
@@ -225,6 +226,29 @@ const registerUser = async () => {
             console.log("[ucrm]: client created.");
           },
         );
+
+        axios
+          .post("http://localhost/rotld/createUser.php", {
+            first_name: first_name.value,
+            last_name: last_name.value,
+            person_type: person_type.value,
+            cnp: cnp.value,
+            email: email.value,
+            password: password.value,
+            confirm_password: confirm_password.value,
+            nr_reg_com: nr_reg_com.value,
+            phone: phone_number.value,
+            address: address.value,
+            city: city.value,
+            county: county.value,
+            zip_code: zip_code.value,
+          })
+          .then(response => {
+            console.log(response.data);
+          })
+          .catch(error => {
+            console.log(error);
+          });
       }
 
       console.log(response);
