@@ -9,20 +9,26 @@ export const useCartStore = defineStore({
 
   actions: {
     addItem(item) {
-      this.items.push(item);
-      this.total += item.price;
-
       // push cart into local storage
-      localStorage.setItem("cart", JSON.stringify(this.items));
-    },
-
-    getCart() {
-      return JSON.parse(localStorage.getItem("cart"));
+      if (localStorage.getItem("cart")) {
+        const cart = JSON.parse(localStorage.getItem("cart"));
+        cart.items.push(item);
+        cart.total += 6.99;
+        localStorage.setItem(
+          "cart",
+          JSON.stringify({ items: cart.items, total: cart.total }),
+        );
+      } else {
+        localStorage.setItem(
+          "cart",
+          JSON.stringify({ items: [item], total: 6.99 }),
+        );
+      }
     },
 
     removeItem(item) {
       this.items.splice(this.items.indexOf(item), 1);
-      this.total -= item.price;
+      this.total -= 6.99;
 
       // remove item from local storage
       localStorage.setItem("cart", JSON.stringify(this.items));
@@ -39,29 +45,10 @@ export const useCartStore = defineStore({
       window.location.reload();
     },
 
-    updateQuantity(item, quantity) {
-      item.quantity = quantity;
-      this.total = this.items.reduce(
-        (acc, item) => acc + item.price * item.quantity,
-        0,
-      );
-    },
-  },
+    increaseQuantity() {
+      this.total += 6.99;
 
-  computed: {
-    total() {
-      return this.items.reduce(
-        (acc, item) => acc + item.price * item.quantity,
-        0,
-      );
-    },
-
-    totalItems() {
-      return this.items.reduce((acc, item) => acc + item.quantity, 0);
-    },
-
-    totalQuantity() {
-      return this.items.reduce((acc, item) => acc + item.quantity, 0);
+      // update total in localstorage
     },
   },
 
