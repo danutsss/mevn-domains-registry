@@ -27,11 +27,12 @@ const checkDomain = async () => {
       return;
     } else {
       await axios
-        .post("http://localhost/rotld/hi.php", {
+        .post("http://localhost/rotld/checkDomainAvailability.php", {
           domain: domain.value,
         })
         .then(response => {
-          response.data === "Available"
+          console.log(response);
+          response.data == "Available"
             ? (message.value = "Domain is available for registration.")
             : (message.value = "Domain is already registered.");
         });
@@ -106,7 +107,7 @@ const checkDomain = async () => {
             class="button btn-teal text-white ml-2"
             @click="addIntoCart()"
           >
-            Register
+            Add to cart
           </button>
         </div>
       </div>
