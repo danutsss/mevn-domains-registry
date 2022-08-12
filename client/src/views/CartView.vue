@@ -18,7 +18,7 @@ const deleteCart = async () => {
 };
 
 const checkCardNumber = () => {
-  if (cardNumber.value.length >= 16) return true;
+  if (cardNumber.value.length >= 19) return true;
 
   return false;
 };
@@ -233,7 +233,7 @@ const getDomainPrice = item => {
                         v-model="cardNumber"
                         type="text"
                         class="focus:outline-none w-full h-6 bg-gray-800 text-white placeholder-gray-300 text-sm border-b border-gray-600 py-4"
-                        placeholder="****     ****      ****      ****"
+                        placeholder="**** **** **** ****"
                         :disabled="checkCardNumber()"
                         @keyup="checkCardNumber()"
                       />
