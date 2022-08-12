@@ -1,6 +1,7 @@
 <script setup>
 import axios from "axios";
 import { ref, onMounted } from "vue";
+import { useCartStore } from "@/stores";
 
 const domain = ref();
 const message = ref();
@@ -9,6 +10,12 @@ onMounted(() => {
   domain.value = "";
   message.value = "";
 });
+
+const addIntoCart = async () => {
+  const cartStore = useCartStore();
+
+  return await cartStore.addToCart(domain.value);
+};
 
 const checkDomain = async () => {
   try {
@@ -20,10 +27,11 @@ const checkDomain = async () => {
       return;
     } else {
       await axios
-        .post("http://localhost/rotld/hi.php", {
+        .post("http://localhost/rotld/checkDomainAvailability.php", {
           domain: domain.value,
         })
         .then(response => {
+          console.log(response);
           response.data == "Available"
             ? (message.value = "Domain is available for registration.")
             : (message.value = "Domain is already registered.");
@@ -97,9 +105,9 @@ const checkDomain = async () => {
           <button
             v-if="message.includes('registration')"
             class="button btn-teal text-white ml-2"
-            onclick="registerDomain()"
+            @click="addIntoCart()"
           >
-            Register
+            Add to cart
           </button>
         </div>
       </div>

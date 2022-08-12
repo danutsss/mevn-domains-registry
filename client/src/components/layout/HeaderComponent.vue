@@ -68,7 +68,6 @@ document.addEventListener("DOMContentLoaded", () => {
           <span aria-hidden="true"></span>
         </a>
       </div>
-
       <div id="navbarBasicExample" class="navbar-menu">
         <div class="navbar-start">
           <div class="navbar-item has-dropdown is-hoverable">
@@ -88,7 +87,10 @@ document.addEventListener("DOMContentLoaded", () => {
           </div>
         </div>
 
-        <div class="navbar-end">
+        <div
+          class="navbar-end flex items-center justify-center md:justify-center"
+        >
+          <slot class="mr-4" name="cart-icon"></slot>
           <div class="navbar-item">
             <div class="buttons">
               <slot name="buttons-link"></slot>

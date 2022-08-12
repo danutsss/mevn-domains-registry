@@ -3,6 +3,7 @@ import { RouterLink, RouterView } from "vue-router";
 import FooterComponentVue from "@/components/layout/FooterComponent.vue";
 import HeaderComponentVue from "@/components/layout/HeaderComponent.vue";
 import { useAuthStore } from "@/stores";
+import helpers from "@/services/helpers";
 
 const authStore = useAuthStore();
 </script>
@@ -21,6 +22,36 @@ const authStore = useAuthStore();
       <hr class="navbar-divider" />
       <RouterLink to="/report" class="navbar-item">Report a problem</RouterLink>
     </template>
+
+    <template #cart-icon>
+      <RouterLink to="/cart" class="flex">
+        <div>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            class="h-6 w-6 text-blue-grey-900"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+            stroke-width="2"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"
+            />
+          </svg>
+        </div>
+
+        <div v-if="helpers.cartBadge()">
+          <div
+            class="inline-flex absolute top-2 right-52 justify-center items-center w-5 h-5 text-xs font-bold text-white bg-secondary-500 rounded-full border-2 border-white dark:border-gray-900"
+          >
+            {{ helpers.cartLength() }}
+          </div>
+        </div>
+      </RouterLink>
+    </template>
+
     <template v-if="!authStore.user" #buttons-link>
       <RouterLink
         to="/register"
@@ -31,6 +62,7 @@ const authStore = useAuthStore();
         >Login</RouterLink
       >
     </template>
+
     <template v-else #buttons-link>
       <RouterLink
         to="/dashboard"
