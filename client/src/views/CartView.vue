@@ -136,29 +136,7 @@ const getDomainPrice = item => {
                     </div>
                   </div>
 
-                  <div
-                    class="flex justify-between items-center mt-6 pt-6 border-t"
-                  >
-                    <div class="flex items-center gap-x-1">
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        class="h-5 w-5"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        stroke="currentColor"
-                        stroke-width="2"
-                      >
-                        <path
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                          d="M10 19l-7-7m0 0l7-7m-7 7h18"
-                        />
-                      </svg>
-                      <span class="text-md font-medium text-blue-500"
-                        ><a href="/">Continue Shopping</a></span
-                      >
-                    </div>
-
+                  <div class="flex justify-end items-center mt-6 pt-6 border-t">
                     <div class="flex justify-center items-center">
                       <span class="text-sm font-medium text-gray-400 mr-1"
                         >Subtotal:</span
@@ -270,14 +248,16 @@ const getDomainPrice = item => {
                       </div>
                     </div>
 
-                    <button
-                      class="h-12 w-full bg-blue-500 rounded focus:outline-none text-white hover:bg-blue-600 mb-3"
+                    <a
+                      type="button"
+                      class="btn text-center flex justify-center items-center h-12 w-full bg-blue-500 rounded focus:outline-none text-white hover:bg-blue-600 mb-3"
+                      href="/check"
                     >
                       Checkout
-                    </button>
+                    </a>
                   </form>
                   <button
-                    class="h-12 w-full bg-red-vivid-500 rounded focus:outline-none text-white hover:bg-red-vivid-600"
+                    class="btn h-12 w-full bg-red-vivid-500 rounded focus:outline-none text-white hover:bg-red-vivid-600"
                     @click="deleteCart()"
                   >
                     Empty cart
