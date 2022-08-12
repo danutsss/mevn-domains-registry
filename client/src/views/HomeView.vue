@@ -14,7 +14,7 @@ onMounted(() => {
 const addIntoCart = async () => {
   const cartStore = useCartStore();
 
-  return await cartStore.addItem(domain.value);
+  return await cartStore.addToCart(domain.value);
 };
 
 const checkDomain = async () => {
