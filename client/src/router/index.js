@@ -58,11 +58,6 @@ const router = createRouter({
       name: "shopping-cart",
       component: () => import("@/views/CartView.vue"),
     },
-    {
-      path: "/check",
-      name: "check-account",
-      component: () => import("@/views/CheckAccountView.vue"),
-    },
   ],
 });
 
