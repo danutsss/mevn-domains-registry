@@ -41,6 +41,9 @@ router.get("/:id", User.show);
 // update.
 router.put("/:id", User.update);
 
+// update by email.
+router.patch("/:email", User.updateByEmail);
+
 // delete.
 router.delete("/:id", User.delete);
 
