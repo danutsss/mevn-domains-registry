@@ -11,5 +11,6 @@ module.exports = (app) => {
 	});
 
 	app.use("/api/auth", auth);
-	app.use("/api/client", user);
+	app.use("/api/client", authenticate, user);
+	app.use("/api/user", user);
 };

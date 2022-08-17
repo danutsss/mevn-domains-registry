@@ -1,5 +1,4 @@
 const { Client } = require("../models/Client");
-const config = require("../config/key");
 const { sendEmail } = require("../utils/index");
 
 /**
@@ -112,7 +111,7 @@ exports.update = async function (req, res) {
 };
 
 /**
- * @route - PUT api/client/:email
+ * @route - PUT api/user/:email
  * @desc - update a client by email
  * @access - private
  */
