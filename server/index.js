@@ -15,8 +15,6 @@ const dbOptions = {
 };
 const PORT = config.PORT || 3000;
 
-//stackoverflow.com/questions/62270350/using-express-and-mongodb-how-do-i-log-out-a-user
-
 // connect to mongodb database.
 mongoose
 	.connect(config.MONGODB_URI, dbOptions)
