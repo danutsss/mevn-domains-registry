@@ -80,6 +80,14 @@ const clientSchema = new mongoose.Schema(
 			type: Boolean,
 			default: false,
 		},
+		userUcrmCustomID: {
+			type: String,
+			required: false,
+		},
+		ucrmClientID: {
+			type: String,
+			required: false,
+		},
 		resetPasswordToken: {
 			type: String,
 			required: false,
