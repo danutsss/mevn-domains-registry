@@ -146,6 +146,8 @@ const registerUser = async () => {
     return (errorMsg.value =
       "Invalid phone number (mandatory format: +40.xxxxxxxxx!");
 
+  let userUcrmCustomID = `07NAV${Math.floor(Math.random() * 1000000)}`;
+
   return await apiConnector()
     .post("api/auth/register", {
       first_name: first_name.value,
@@ -161,6 +163,7 @@ const registerUser = async () => {
       city: city.value,
       county: county.value,
       zip_code: zip_code.value,
+      userUcrmCustomID: userUcrmCustomID,
     })
     .then(response => {
       errorMsg.value = "";
@@ -169,7 +172,7 @@ const registerUser = async () => {
       // if account is created, redirect to login page
       if (successMsg.value) {
         const body = {
-          userIdent: `07NAV${Math.floor(Math.random() * 1000000)}`,
+          userIdent: userUcrmCustomID,
           previousIsp: "",
           isLead: false,
           clientType: 1,
@@ -194,7 +197,7 @@ const registerUser = async () => {
           invoiceAddressSameAsContact: false,
           sendInvoiceByPost: false,
           invoiceMaturityDays: 14,
-          stopServiceDue: true,
+          stopServiceDue: false,
           stopServiceDueDays: 0,
           organizationId: 1,
           username: email.value,
@@ -222,8 +225,17 @@ const registerUser = async () => {
         };
 
         ucrmApiRequest("POST", config.ucrmApiUrl + "/clients", body).then(
-          () => {
+          response => {
+            console.log(response);
             console.log("[ucrm]: client created.");
+
+            let ucrmClientID = response.data.id;
+
+            apiConnector()
+              .patch(`api/client/${email.value}`, {
+                ucrmClientID: `${ucrmClientID}`,
+              })
+              .then(response => console.log(response));
           },
         );
 
