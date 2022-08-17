@@ -232,7 +232,7 @@ const registerUser = async () => {
             let ucrmClientID = response.data.id;
 
             apiConnector()
-              .patch(`api/client/${email.value}`, {
+              .patch(`api/user/${email.value}`, {
                 ucrmClientID: `${ucrmClientID}`,
               })
               .then(response => console.log(response));

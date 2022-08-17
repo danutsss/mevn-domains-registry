@@ -1,5 +1,9 @@
 <script setup>
 import { useCartStore } from "@/stores";
+import { useAuthStore } from "@/stores";
+import { ref } from "vue";
+
+const infoMsg = ref("");
 
 const cartObj = JSON.parse(localStorage.getItem("cart"));
 const cartItems = cartObj ?? [];
@@ -45,11 +49,21 @@ const getTotal = () => {
 const getDomainPrice = item => {
   return 6.99 * cartItems[item].registerPeriod;
 };
+
+const goCheckout = () => {
+  const authStore = useAuthStore();
+
+  if (authStore.user) {
+    window.location.href = "/checkout";
+  } else {
+    infoMsg.value = "You need to be logged in to checkout.";
+  }
+};
 </script>
 
 <template>
   <section class="relative">
-    <div class="container flex flex-col-reverse items-center mt-14 lg:mt-14">
+    <div class="container flex flex-col items-center mt-14 lg:mt-14">
       <div class="py-12">
         <div
           class="max-w-md mx-auto bg-gray-100 shadow-lg rounded-lg md:max-w-5xl"
@@ -145,7 +159,7 @@ const getDomainPrice = item => {
                 <a
                   type="button"
                   class="btn text-center flex justify-center items-center h-12 w-full bg-blue-500 rounded focus:outline-none text-white hover:bg-blue-600 mb-3"
-                  href="/check"
+                  @click="goCheckout()"
                 >
                   Checkout
                 </a>
@@ -155,6 +169,29 @@ const getDomainPrice = item => {
                 >
                   Empty cart
                 </button>
+              </div>
+              <div
+                v-if="infoMsg"
+                id="alert-border-1"
+                class="flex p-4 mt-4 bg-blue-100 border-t-4 border-blue-500 dark:bg-blue-200"
+                role="alert"
+              >
+                <svg
+                  class="flex-shrink-0 w-5 h-5 text-blue-700"
+                  fill="currentColor"
+                  viewBox="0 0 20 20"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    fill-rule="evenodd"
+                    d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z"
+                    clip-rule="evenodd"
+                  ></path>
+                </svg>
+
+                <div class="ml-3 text-sm font-medium text-blue-700">
+                  <strong class="text-blue-700">{{ infoMsg }}</strong>
+                </div>
               </div>
             </div>
           </div>
