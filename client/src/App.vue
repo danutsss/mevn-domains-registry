@@ -3,7 +3,7 @@ import { RouterLink, RouterView } from "vue-router";
 import FooterComponentVue from "@/components/layout/FooterComponent.vue";
 import HeaderComponentVue from "@/components/layout/HeaderComponent.vue";
 import { useAuthStore } from "@/stores";
-import helpers from "@/services/helpers";
+import { cartLength } from "@/services/helpers";
 
 const authStore = useAuthStore();
 </script>
@@ -41,9 +41,7 @@ const authStore = useAuthStore();
             />
           </svg>
           Cart ({{
-            helpers.cartLength() > 1
-              ? `${helpers.cartLength()} items`
-              : `${helpers.cartLength()} item`
+            cartLength() > 1 ? `${cartLength()} items` : `${cartLength()} item`
           }})
         </div>
       </RouterLink>

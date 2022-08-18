@@ -2,7 +2,7 @@
 import axios from "axios";
 import { LockClosedIcon } from "@heroicons/vue/solid";
 import { onMounted, ref } from "vue";
-import apiConnector, { ucrmApiRequest } from "../services/apiConnector";
+import apiConnector, { ucrmApiRequest } from "@/services/apiConnector";
 import config from "@/config/dev";
 
 const first_name = ref();
@@ -224,20 +224,22 @@ const registerUser = async () => {
           addressData: {},
         };
 
-        ucrmApiRequest("POST", config.ucrmApiUrl + "/clients", body).then(
-          response => {
-            console.log(response);
-            console.log("[ucrm]: client created.");
+        ucrmApiRequest(
+          "POST",
+          config.ucrmApiUrl + "/clients",
+          JSON.stringify(body),
+        ).then(response => {
+          console.log(response);
+          console.log("[ucrm]: client created.");
 
-            let ucrmClientID = response.data.id;
+          let ucrmClientID = response.data.id;
 
-            apiConnector()
-              .patch(`api/user/${email.value}`, {
-                ucrmClientID: `${ucrmClientID}`,
-              })
-              .then(response => console.log(response));
-          },
-        );
+          apiConnector()
+            .patch(`api/user/${email.value}`, {
+              ucrmClientID: `${ucrmClientID}`,
+            })
+            .then(response => console.log(response));
+        });
 
         axios
           .post("http://localhost/rotld/createUser.php", {
