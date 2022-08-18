@@ -176,6 +176,7 @@ const createInvoice = async () => {
                       domainExpireDate: responseDomain.data.expiration_date,
                       domainPrice: getDomainPrice(i),
                       domainStatus: "reserved",
+                      domainInvoiceId: responseInvoice.data.number,
                     })
                     .then(response => console.log(response))
                     .catch(error => console.log(error));
