@@ -248,8 +248,6 @@ const registerUser = async () => {
             person_type: person_type.value,
             cnp: cnp.value,
             email: email.value,
-            password: password.value,
-            confirm_password: confirm_password.value,
             nr_reg_com: nr_reg_com.value,
             phone: phone_number.value,
             address: address.value,
