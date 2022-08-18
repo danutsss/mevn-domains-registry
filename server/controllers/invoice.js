@@ -40,3 +40,22 @@ exports.create = async (req, res) => {
 		});
 	}
 };
+
+/**
+ * @route - GET /api/invoices/:id/all
+ * @desc - get all user's invoices
+ * @access - public
+ */
+exports.showall = async (req, res) => {
+	try {
+		const invoices = await Invoices.find({ clientId: req.params.id });
+		res.status(200).json({
+			message: "invoices found successfully.",
+			invoices,
+		});
+	} catch (error) {
+		res.status(500).json({
+			message: error.message,
+		});
+	}
+};
