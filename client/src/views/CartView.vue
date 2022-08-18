@@ -11,8 +11,9 @@ import {
 } from "@headlessui/vue";
 import { CheckCircleIcon } from "@heroicons/vue/outline";
 import { getUserFromLocalStorage } from "@/services/helpers";
-import { ucrmApiRequest } from "@/services/apiConnector";
+import apiConnector, { ucrmApiRequest } from "@/services/apiConnector";
 import config from "@/config/dev";
+import axios from "axios";
 
 const open = ref(false);
 const authStore = useAuthStore();
@@ -53,9 +54,9 @@ const decreasePeriod = item => {
   }
 };
 
-// const getRegisterPeriod = item => {
-//   return cartItems[item].registerPeriod;
-// };
+const getRegisterPeriod = item => {
+  return cartItems[item].registerPeriod;
+};
 
 const getTotal = () => {
   const cartStore = useCartStore();
@@ -74,17 +75,19 @@ const createInvoice = async () => {
   for (let i = 0; i < cartItems.length; i++) {
     invoiceItems.push({
       label: `${cartItems[i].item} - inregistrare domeniu`,
-      quantity: 1,
-      price: getDomainPrice(i),
-      unit: "EUR",
+      quantity: getRegisterPeriod(i),
+      price: 6.99,
+      unit: "",
     });
   }
+
+  console.log(invoiceItems);
 
   invoiceBody = {
     number: `${Math.floor(Math.random() * 1000000)}`,
     items: invoiceItems,
     maturityDays: 14,
-    notes: "",
+    notes: "Cantitatea se refera la perioada de inregistrare.",
     discount: 0,
     discountLabel: "",
     adminNotes: "",
@@ -126,11 +129,67 @@ const createInvoice = async () => {
     }/invoices`,
     invoiceBody,
   )
-    .then(response => {
-      if (response.status === 201) {
-        return ucrmApiRequest(
+    .then(responseInvoice => {
+      if (responseInvoice.status === 201) {
+        apiConnector().post("api/invoices/create", {
+          invoiceNumber: responseInvoice.data.number,
+          clientId: getUserFromLocalStorage()["client"]["_id"],
+          invoiceClientId: getUserFromLocalStorage()["client"]["ucrmClientID"],
+          invoiceDate: responseInvoice.data.createdDate,
+          invoiceDueDate: responseInvoice.data.dueDate,
+          invoiceEmailSentDate: responseInvoice.data.emailSentDate,
+          invoiceStatus: responseInvoice.data.status,
+          invoiceTotal: responseInvoice.data.total,
+          invoiceItems: invoiceItems,
+        });
+
+        for (let i = 0; i < invoiceItems.length; i++) {
+          axios
+            .post("http://localhost/rotld/createUser.php", {
+              first_name: getUserFromLocalStorage()["client"]["first_name"],
+              last_name: getUserFromLocalStorage()["client"]["last_name"],
+              person_type: getUserFromLocalStorage()["client"]["person_type"],
+              cnp: getUserFromLocalStorage()["client"]["cnp"],
+              email: getUserFromLocalStorage()["client"]["email"],
+              nr_reg_com: getUserFromLocalStorage()["client"]["nr_reg_com"],
+              phone: getUserFromLocalStorage()["client"]["phone"],
+              address: getUserFromLocalStorage()["client"]["address"],
+              city: getUserFromLocalStorage()["client"]["city"],
+              county: getUserFromLocalStorage()["client"]["county"],
+              zip_code: getUserFromLocalStorage()["client"]["zip_code"],
+            })
+            .then(responseRegistrant => {
+              axios
+                .post("http://localhost/rotld/registerDomain.php", {
+                  domain: cartItems[i].item,
+                  domain_period: getRegisterPeriod(i),
+                  c_registrant: responseRegistrant.data,
+                })
+                .then(responseDomain => {
+                  return apiConnector()
+                    .post("api/domains/create", {
+                      clientId: getUserFromLocalStorage()["client"]["_id"],
+                      domainName: cartItems[i].item,
+                      domainPeriod: getRegisterPeriod(i),
+                      domainRegistrant: responseRegistrant.data,
+                      domainRegisterDate: responseDomain.data.registration_date,
+                      domainExpireDate: responseDomain.data.expiration_date,
+                      domainPrice: getDomainPrice(i),
+                      domainStatus: "reserved",
+                    })
+                    .then(response => console.log(response))
+                    .catch(error => console.log(error));
+                })
+                .catch(error => console.log(error));
+            })
+            .catch(error => {
+              console.log(error);
+            });
+        }
+
+        ucrmApiRequest(
           "PATCH",
-          `${config.ucrmApiUrl}/invoices/${response.data.id}/send`,
+          `${config.ucrmApiUrl}/invoices/${responseInvoice.data.id}/send`,
         )
           .then(response => console.log(response))
           .catch(error => console.log(error));
@@ -354,7 +413,10 @@ const createInvoice = async () => {
                 <button
                   type="button"
                   class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-secondary-600 text-base font-medium text-white hover:bg-secondary-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:secondary-red-500 sm:ml-3 sm:w-auto sm:text-sm"
-                  @click="open = false"
+                  @click="
+                    open = false;
+                    deleteCart();
+                  "
                 >
                   Proceed
                 </button>
@@ -362,7 +424,10 @@ const createInvoice = async () => {
                   ref="cancelButtonRef"
                   type="button"
                   class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm"
-                  @click="open = false"
+                  @click="
+                    open = false;
+                    deleteCart();
+                  "
                 >
                   Close
                 </button>
