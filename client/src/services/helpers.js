@@ -17,16 +17,17 @@ function addPadding(str, spaceEvery, wrapEvery) {
   });
 }
 
-const cartBadge = () => {
-  if (window.innerWidth < 768) return false;
-  return true;
-};
-
-const cartLength = () => {
+export const cartLength = () => {
   const cart = JSON.parse(localStorage.getItem("cart"));
   const cartLength = cart ? cart.length : 0;
 
   return cartLength;
 };
 
-export default { addPadding, cartBadge, cartLength };
+export const getUserFromLocalStorage = () => {
+  const user = localStorage.getItem("user");
+  const parsedUser = JSON.parse(user);
+  return parsedUser;
+};
+
+export default { addPadding };

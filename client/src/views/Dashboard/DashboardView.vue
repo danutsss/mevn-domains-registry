@@ -1,10 +1,4 @@
-<script setup>
-const getUserFromLocalStorage = () => {
-  const user = localStorage.getItem("user");
-  const parsedUser = JSON.parse(user);
-  return parsedUser;
-};
-</script>
+<script setup></script>
 
 <template>
   <section class="relative">
