@@ -35,6 +35,10 @@ const domainSchema = new mongoose.Schema(
 			type: String,
 			trim: true,
 		},
+		domainInvoiceId: {
+			type: String,
+			trim: true,
+		},
 	},
 	{ collection: "domains", timestamp: true }
 );
