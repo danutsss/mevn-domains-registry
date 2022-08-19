@@ -48,6 +48,12 @@ body {
   @apply bg-white;
 }
 
+img {
+  width: 100%;
+  height: auto;
+  aspect-ratio: attr(width) / attr(height);
+}
+
 /* utility classes */
 .small {
   font-size: 80%;
