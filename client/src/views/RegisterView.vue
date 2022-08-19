@@ -298,7 +298,7 @@ const registerUser = async () => {
           Or
           <a href="/login">
             <span
-              class="font-medium text-secondary-500 hover:text-secondary-400"
+              class="font-medium text-secondary-800 hover:text-secondary-400"
               >login to existing account</span
             >
           </a>
