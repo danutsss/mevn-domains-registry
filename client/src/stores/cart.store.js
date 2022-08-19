@@ -27,6 +27,10 @@ export const useCartStore = defineStore({
       return total;
     },
 
+    getCart() {
+      return this.cart;
+    },
+
     clearCart() {
       this.cart = [];
 

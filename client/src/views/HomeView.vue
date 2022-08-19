@@ -11,8 +11,19 @@ onMounted(() => {
   message.value = "";
 });
 
+const alreadyInCart = domain => {
+  const cartStore = useCartStore();
+  return cartStore.getCart().some(item => item.item === domain);
+};
+
 const addIntoCart = async () => {
   const cartStore = useCartStore();
+
+  if (alreadyInCart(domain.value)) {
+    message.value = "";
+    message.value = "Domain is already in cart.";
+    return;
+  }
 
   return await cartStore.addToCart(domain.value);
 };
