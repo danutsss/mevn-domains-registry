@@ -1,10 +1,6 @@
 import axios from "axios";
 import config from "@/config/dev";
 
-export const isLoggedIn = () => {
-  return !!localStorage.getItem("token");
-};
-
 export default () => {
   return axios.create({
     baseURL: "http://localhost:3000",

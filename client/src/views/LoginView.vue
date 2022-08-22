@@ -62,7 +62,7 @@ const loginUser = async () => {
           Or
           <a href="/register">
             <span
-              class="font-medium text-secondary-500 hover:text-secondary-400"
+              class="font-medium text-secondary-800 hover:text-secondary-400"
               >create a new account</span
             >
           </a>

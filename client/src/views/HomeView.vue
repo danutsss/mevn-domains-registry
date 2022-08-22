@@ -11,8 +11,19 @@ onMounted(() => {
   message.value = "";
 });
 
+const alreadyInCart = domain => {
+  const cartStore = useCartStore();
+  return cartStore.getCart().some(item => item.item === domain);
+};
+
 const addIntoCart = async () => {
   const cartStore = useCartStore();
+
+  if (alreadyInCart(domain.value)) {
+    message.value = "";
+    message.value = "Domain is already in cart.";
+    return;
+  }
 
   return await cartStore.addToCart(domain.value);
 };
@@ -53,7 +64,7 @@ const checkDomain = async () => {
           class="text-primary-500 font-semibold text-3xl md:text-4 lg:text-5xl text-center lg:text-left mb-6"
         >
           Your .ro domain at just
-          <span class="text-secondary-300">6.99€</span> per year!
+          <span class="text-blue-grey-900">6.99€</span> per year!
         </h2>
         <p class="text-blue-grey-900 text-lg text-center lg:text-left mb-6">
           We've made it so easy to purchase a custom domain address that we're
@@ -75,7 +86,7 @@ const checkDomain = async () => {
               <div class="control">
                 <button
                   type="submit"
-                  class="button bg-secondary-300 text-white"
+                  class="button bg-secondary-300 text-blue-grey-900"
                 >
                   Search
                 </button>
@@ -118,7 +129,7 @@ const checkDomain = async () => {
         <img
           class="w-5/6 h-5/6 sm:w-3/4 sm:h-3/4 md:w-full md:h-full"
           src="/src/assets/img/svgs/domain_search.svg"
-          alt="domain_search"
+          alt="Domain search"
         />
       </div>
       <!-- image end -->
@@ -153,7 +164,7 @@ const checkDomain = async () => {
           <img
             class="w-5/6 h-5/6 sm:w-3/4 sm:h-3/4 md:w-full md:h-full"
             src="/src/assets/img/svgs/user_flow.svg"
-            alt="user_flow"
+            alt="User flow"
           />
         </div>
         <!-- image end -->
@@ -189,7 +200,7 @@ const checkDomain = async () => {
           <img
             class="w-5/6 h-5/6 sm:w-3/4 sm:h-3/4 md:w-full md:h-full"
             src="/src/assets/img/svgs/affordable.svg"
-            alt="affordable"
+            alt="Affordable price"
           />
         </div>
         <!-- image end -->
@@ -225,7 +236,7 @@ const checkDomain = async () => {
           <img
             class="w-5/6 h-5/6 sm:w-3/4 sm:h-3/4 md:w-full md:h-full"
             src="/src/assets/img/svgs/reliable.svg"
-            alt="reliable"
+            alt="Reliable service"
           />
         </div>
         <!-- image end -->
@@ -260,7 +271,7 @@ const checkDomain = async () => {
           <img
             class="w-5/6 h-5/6 sm:w-3/4 sm:h-3/4 md:w-full md:h-full"
             src="/src/assets/img/svgs/security.svg"
-            alt="secured"
+            alt="Secured service"
           />
         </div>
         <!-- image end -->

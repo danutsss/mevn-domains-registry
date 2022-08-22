@@ -1,3 +1,6 @@
+import { ucrmApiRequest } from "@/services/apiConnector";
+import config from "@/config/dev";
+
 /**
  * Adds padding and newlines into a string without whitespace
  * @param {str} str The str to be modified (any whitespace will be stripped)
@@ -17,16 +20,24 @@ function addPadding(str, spaceEvery, wrapEvery) {
   });
 }
 
-const cartBadge = () => {
-  if (window.innerWidth < 768) return false;
-  return true;
-};
-
-const cartLength = () => {
+export const cartLength = () => {
   const cart = JSON.parse(localStorage.getItem("cart"));
   const cartLength = cart ? cart.length : 0;
 
   return cartLength;
 };
 
-export default { addPadding, cartBadge, cartLength };
+export const getUserFromLocalStorage = () => {
+  const user = localStorage.getItem("user");
+  const parsedUser = JSON.parse(user);
+  return parsedUser;
+};
+
+export const updateInvoices = async number => {
+  return await ucrmApiRequest(
+    "GET",
+    `${config.ucrmApiUrl}/invoices?number=${number}`,
+  );
+};
+
+export default { addPadding };

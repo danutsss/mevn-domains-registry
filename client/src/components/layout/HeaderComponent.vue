@@ -71,7 +71,7 @@ document.addEventListener("DOMContentLoaded", () => {
       <div id="navbarBasicExample" class="navbar-menu">
         <div class="navbar-start">
           <div class="navbar-item has-dropdown is-hoverable">
-            <a class="navbar-link">Domains</a>
+            <a class="navbar-link" href="#domains-dropdown">Domains</a>
 
             <div class="navbar-dropdown is-boxed">
               <slot name="domain-dropdown-link"></slot>
@@ -79,7 +79,7 @@ document.addEventListener("DOMContentLoaded", () => {
           </div>
 
           <div class="navbar-item has-dropdown is-hoverable">
-            <a class="navbar-link">More</a>
+            <a class="navbar-link" href="#more-dropwdown">More</a>
 
             <div class="navbar-dropdown is-boxed">
               <slot name="more-dropdown-link"></slot>
