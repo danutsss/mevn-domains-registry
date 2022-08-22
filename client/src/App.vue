@@ -12,15 +12,12 @@ const authStore = useAuthStore();
   <HeaderComponentVue>
     <template #domain-dropdown-link>
       <RouterLink to="/" class="navbar-item">Domain Name Search</RouterLink>
-      <RouterLink to="/transfer" class="navbar-item"
+      <RouterLink to="/transfer" class="navbar-item" :class="{ disabled: true }"
         >Domain Transfer</RouterLink
       >
     </template>
-    <template #more-dropdown-link>
-      <RouterLink to="/about" class="navbar-item">About</RouterLink>
+    <template #contact-us-link>
       <RouterLink to="/contact" class="navbar-item">Contact Us</RouterLink>
-      <hr class="navbar-divider" />
-      <RouterLink to="/report" class="navbar-item">Report a problem</RouterLink>
     </template>
 
     <template #cart-icon>
