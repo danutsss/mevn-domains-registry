@@ -79,10 +79,8 @@ document.addEventListener("DOMContentLoaded", () => {
           </div>
 
           <div class="navbar-item has-dropdown is-hoverable">
-            <a class="navbar-link" href="#more-dropwdown">More</a>
-
-            <div class="navbar-dropdown is-boxed">
-              <slot name="more-dropdown-link"></slot>
+            <div class="navbar-item is-boxed">
+              <slot name="contact-us-link"></slot>
             </div>
           </div>
         </div>
