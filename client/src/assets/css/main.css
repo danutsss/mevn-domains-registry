@@ -62,3 +62,8 @@ img {
 .w-75 {
   width: 75% !important;
 }
+
+.disabled {
+  opacity: 0.5;
+  pointer-events: none;
+}
