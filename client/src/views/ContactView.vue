@@ -129,6 +129,33 @@
           </div>
         </div>
       </div>
+      <div class="accordion-item">
+        <h2 id="headingFive" class="accordion-header">
+          <button
+            class="accordion-button collapsed font-bold"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#collapseFive"
+            aria-expanded="false"
+            aria-controls="collapseFive"
+          >
+            I found a problem on your website, what should I do?
+          </button>
+        </h2>
+        <div
+          id="collapseFive"
+          class="accordion-collapse collapse"
+          aria-labelledby="headingFive"
+          data-bs-parent="#accordionExample"
+        >
+          <div class="accordion-body font-normal">
+            If you find a problem on our website, please fill the form below
+            with the first paragraph of the message as:
+            <strong>[BUG]</strong> and we'll get back to you as soon as
+            possible. We'll do our best to fix it.
+          </div>
+        </div>
+      </div>
     </div>
   </section>
 
