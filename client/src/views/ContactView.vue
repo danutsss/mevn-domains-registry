@@ -1,4 +1,26 @@
-<script setup></script>
+<script setup>
+import apiConnector from "@/services/apiConnector";
+import { ref } from "vue";
+
+const fullname = ref("");
+const email = ref("");
+const phone = ref("");
+const message = ref("");
+const success = ref(false);
+const successMsg = ref("");
+
+const sendRequest = async () => {
+  const response = await apiConnector().post("/api/contact", {
+    fullname: fullname.value,
+    email: email.value,
+    message: message.value,
+    phone: phone.value,
+  });
+
+  response.status === 200 ? (success.value = true) : (success.value = false);
+  successMsg.value = response.data.message;
+};
+</script>
 <template>
   <section
     class="relative py-36 bg-gradient-to-tr from-secondary-300 via-secondary-400 to-secondary-500"
@@ -173,20 +195,47 @@
     <div class="flex justify-center items-center mb-10 lg:mb-10">
       <div class="md:grid md:grid-cols-2 w-1/3 md:gap-6">
         <div class="mt-5 md:mt-0 md:col-span-2">
+          <div
+            v-if="success"
+            class="bg-teal-100 border-t-4 border-teal-500 rounded-b text-teal-900 px-4 py-3 shadow-md mb-4"
+            role="alert"
+          >
+            <div class="flex">
+              <div class="py-1">
+                <svg
+                  class="fill-current h-6 w-6 text-teal-500 mr-4"
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 20 20"
+                >
+                  <path
+                    d="M2.93 17.07A10 10 0 1 1 17.07 2.93 10 10 0 0 1 2.93 17.07zm12.73-1.41A8 8 0 1 0 4.34 4.34a8 8 0 0 0 11.32 11.32zM9 11V9h2v6H9v-4zm0-6h2v2H9V5z"
+                  />
+                </svg>
+              </div>
+              <div>
+                <p class="font-bold">Informational message</p>
+                <p class="text-sm">
+                  {{ successMsg }}
+                </p>
+              </div>
+            </div>
+          </div>
           <form method="POST" @submit.prevent="sendRequest()">
             <div class="shadow-md overflow-hidden sm:rounded-md">
               <div class="px-4 py-5 sm:p-6">
                 <div class="grid grid-cols-6 gap-6">
                   <div class="col-span-6 sm:col-span-3">
                     <label
-                      for="full-name"
+                      for="fullname"
                       class="block mb-2 text-sm font-medium text-gray-700"
                       >Full name</label
                     >
                     <input
-                      id="full-name"
+                      id="fullname"
+                      v-model="fullname"
+                      required
                       type="text"
-                      name="full-name"
+                      name="fullname"
                       autocomplete="given-name"
                       class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
                     />
@@ -200,6 +249,8 @@
                     >
                     <input
                       id="email-address"
+                      v-model="email"
+                      required
                       type="text"
                       name="email-address"
                       autocomplete="email"
@@ -215,6 +266,7 @@
                     >
                     <input
                       id="phone-number"
+                      v-model="phone"
                       type="text"
                       name="phone-number"
                       autocomplete="tel"
@@ -230,6 +282,8 @@
                     >
                     <textarea
                       id="message"
+                      v-model="message"
+                      required
                       name="message"
                       class="block resize p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                       placeholder="Your message..."
