@@ -86,7 +86,7 @@ const checkDomain = async () => {
               <div class="control">
                 <button
                   type="submit"
-                  class="button bg-primary-300 text-white font-semibold"
+                  class="button bg-primary-500 text-white font-semibold"
                 >
                   Search
                 </button>
