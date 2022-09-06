@@ -165,15 +165,24 @@ const createInvoice = async () => {
                   domain_period: getRegisterPeriod(i),
                   c_registrant: responseRegistrant.data,
                 })
-                .then(responseDomain => {
+                .then(() => {
+                  const date = new Date().toLocaleString("ro-RO", {
+                    timeZone: "Europe/Bucharest",
+                  });
+                  const expireDate = new Date(
+                    new Date().setFullYear(
+                      new Date().getFullYear() + getRegisterPeriod(i),
+                    ),
+                  ).toLocaleString("ro-RO", { timeZone: "Europe/Bucharest" });
+
                   return apiConnector()
                     .post("api/domains/create", {
                       clientId: getUserFromLocalStorage()["client"]["_id"],
                       domainName: cartItems[i].item,
                       domainPeriod: getRegisterPeriod(i),
                       domainRegistrant: responseRegistrant.data,
-                      domainRegisterDate: responseDomain.data.registration_date,
-                      domainExpireDate: responseDomain.data.expiration_date,
+                      domainRegisterDate: date,
+                      domainExpireDate: expireDate,
                       domainPrice: getDomainPrice(i),
                       domainStatus: "reserved",
                       domainInvoiceId: responseInvoice.data.number,
