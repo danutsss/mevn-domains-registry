@@ -23,7 +23,7 @@ const categories = ref({
 
 const isOpen = ref(false);
 const modalTitle = ref("");
-const modalBody = ref();
+const modalBody = ref("");
 
 const editDomain = entity => {
   isOpen.value = true;
@@ -274,6 +274,12 @@ onMounted(() => {
                 'ring-white ring-opacity-60 ring-offset-2 ring-offset-blue-400 focus:outline-none focus:ring-2',
               ]"
             >
+              <div
+                v-if="entities.length === 0"
+                class="flex flex-row text-center justify-center items-center"
+              >
+                No {{ Object.keys(categories)[idx].toLowerCase() }} found.
+              </div>
               <ul>
                 <li
                   v-for="entity in entities"
