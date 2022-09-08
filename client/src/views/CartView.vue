@@ -25,6 +25,11 @@ const cartItems = cartObj ?? [];
 const deleteCart = async () => {
   const cartStore = useCartStore();
 
+  if (cartStore.cart.length === 0) {
+    infoMsg.value = "Your cart is already empty!";
+    return;
+  }
+
   return await cartStore.clearCart();
 };
 
