@@ -25,6 +25,12 @@ const isOpen = ref(false);
 const modalTitle = ref("");
 const modalBody = ref();
 
+const editDomain = entity => {
+  isOpen.value = true;
+  modalTitle.value = "Edit Domain";
+  console.log(entity);
+};
+
 const renderInvoice = async invoiceNumber => {
   const invoice = categories.value.Invoices.find(
     invoice => invoice.invoiceNumber === invoiceNumber,
@@ -322,6 +328,7 @@ onMounted(() => {
                         class="bi bi-pencil-square hover:text-primary-500 ease-in-out duration-200"
                         viewBox="0 0 16 16"
                         role="img"
+                        @click="editDomain(entity)"
                       >
                         <title>Edit domain</title>
                         <path
@@ -454,7 +461,9 @@ onMounted(() => {
                       {{ modalTitle }}
                     </DialogTitle>
 
+                    <!-- eslint-disable vue/no-v-html -->
                     <div class="mt-2" v-html="modalBody"></div>
+                    <!-- eslint-enable -->
 
                     <div class="mt-4">
                       <button
