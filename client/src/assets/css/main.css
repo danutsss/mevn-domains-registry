@@ -32,6 +32,10 @@ body {
   flex-direction: column;
 }
 
+button {
+  font-family: "Sora", sans-serif !important;
+}
+
 .btn {
   @apply shadow-md py-3 px-6 rounded-md transition duration-300;
 }
