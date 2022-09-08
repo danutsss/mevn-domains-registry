@@ -14,6 +14,7 @@ import {
 } from "@headlessui/vue";
 import apiConnector from "@/services/apiConnector";
 import { getUserFromLocalStorage } from "@/services/helpers";
+import easyInvoice from "easyinvoice";
 
 const categories = ref({
   Domains: [],
@@ -24,49 +25,99 @@ const isOpen = ref(false);
 const modalTitle = ref("");
 const modalBody = ref();
 
+const renderInvoice = async invoiceNumber => {
+  const invoice = categories.value.Invoices.find(
+    invoice => invoice.invoiceNumber === invoiceNumber,
+  );
+
+  const invoiceItems = invoice.invoiceItems.map(
+    ({ label, price, quantity }) => ({
+      description: label,
+      "tax-rate": 6,
+      quantity: quantity,
+      price: price,
+    }),
+  );
+
+  const user = getUserFromLocalStorage();
+
+  const data = {
+    // "customize": {
+    //     "template": "SGVsbG8gd29ybGQh" // Must be base64 encoded html. This example contains 'Hello World!' in base64
+    // },
+    images: {
+      logo: "https://i.imgur.com/hbY7Avp.png",
+    },
+    sender: {
+      company: "ZERO SAPTE SERVICES S.R.L",
+      address: "B-DUL MAMAIA NORD NR. 6, CENTRUL DE AFACERI, SPATIUL 01-05",
+      zip: "905700",
+      city: "Navodari",
+      country: "Romania",
+      // "custom1": "custom value 1",
+      // "custom2": "custom value 2",
+      // "custom3": "custom value 3"
+    },
+    client: {
+      company: user["client"]["last_name"] + " " + user["client"]["first_name"],
+      address: user["client"]["address"],
+      zip: user["client"]["zip_code"],
+      city: user["client"]["city"],
+      country: user["client"]["country"],
+      custom1: user["client"]["nr_reg_com"],
+      custom2: user["client"]["cnp"],
+    },
+    information: {
+      number: invoiceNumber,
+      date: invoice.invoiceDate,
+      "due-date": invoice.invoiceDueDate,
+    },
+    "bottom-notice": "Kindly pay your invoice within 15 days. Thank you!",
+    products: invoiceItems,
+    settings: {
+      currency: "EUR", // See documentation 'Locales and Currency' for more info. Leave empty for no currency.
+      locale: "ro-RO", // Defaults to en-US, used for number formatting (see docs)
+      taxNotation: "TVA", // Defaults to vat
+      // "margin-top": 25, // Default to 25
+      // "margin-right": 25, // Default to 25
+      // "margin-left": 25, // Default to 25
+      // "margin-bottom": 25, // Default to 25
+      // "format": "Letter", // Defaults to A4,
+      // "height": "1000px", // allowed units: mm, cm, in, px
+      // "width": "500px", // allowed units: mm, cm, in, px
+      // "orientation": "landscape", // portrait or landscape, defaults to portrait
+    },
+    // Used for translating the headers to your preferred language
+    // Defaults to English. Below example is translated to Dutch
+    // "translate": {
+    //     "invoice": "FACTUUR",
+    //     "number": "Nummer",
+    //     "date": "Datum",
+    //     "due-date": "Verloopdatum",
+    //     "subtotal": "Subtotaal",
+    //     "products": "Producten",
+    //     "quantity": "Aantal",
+    //     "price": "Prijs",
+    //     "product-total": "Totaal",
+    //     "total": "Totaal"
+    // },
+  };
+
+  easyInvoice.createInvoice(data, result => {
+    easyInvoice.download(`invoice_${invoice.invoiceNumber}.pdf`, result.pdf);
+  });
+};
+
 const openModal = (id, entity) => {
   isOpen.value = true;
-  let invoicePeriod =
-    (new Date(entity.invoiceDueDate).getTime() -
-      new Date(entity.invoiceDate).getTime()) /
-    (24 * 60 * 60 * 1000);
+  modalTitle.value = entity.domainName;
 
   let expiresIn =
     (new Date(entity.domainExpireDate).getTime() -
       new Date(entity.domainRegisterDate).getTime()) /
     (24 * 60 * 60 * 1000);
 
-  modalTitle.value = entity.domainName ?? `#${entity.invoiceNumber}`;
-
-  if (modalTitle.value === `#${entity.invoiceNumber}`) {
-    modalBody.value = `
-      <div class="flex flex-col">
-        <div class="flex flex-row justify-between">
-          <div class="flex flex-col">
-            <span class="text-sm font-semibold">Invoice Number</span>
-            <span class="text-sm font-semibold">Invoice Date</span>
-            <span class="text-sm font-semibold">Invoice Due Date</span>
-            <span class="text-sm font-semibold">Invoice Period</span>
-            <span class="text-sm font-semibold">Invoice Amount</span>
-            <span class="text-sm font-semibold">Invoice Status</span>
-          </div>
-          <div class="flex flex-col">
-            <span class="text-sm font-semibold">#${entity.invoiceNumber}</span>
-            <span class="text-sm font-semibold">${new Date(
-              entity.invoiceDate,
-            ).toLocaleDateString()}</span>
-            <span class="text-sm font-semibold">${new Date(
-              entity.invoiceDueDate,
-            ).toLocaleDateString()}</span>
-            <span class="text-sm font-semibold">${invoicePeriod} days</span>
-            <span class="text-sm font-semibold">${entity.invoiceTotal}€</span>
-            <span class="text-sm font-semibold">${entity.invoiceStatus}</span>
-          </div>
-        </div>
-      </div>
-    `;
-  } else if (modalTitle.value === entity.domainName) {
-    modalBody.value = `
+  modalBody.value = `
       <div class="flex flex-col">
         <div class="flex flex-row justify-between">
           <div class="flex flex-col">
@@ -91,7 +142,6 @@ const openModal = (id, entity) => {
         </div>
       </div>
     `;
-  }
 };
 
 const closeModal = () => {
@@ -222,8 +272,7 @@ onMounted(() => {
                 <li
                   v-for="entity in entities"
                   :key="entity.id"
-                  class="relative rounded-md p-3 hover:bg-gray-100"
-                  @click="openModal(idx, entity)"
+                  class="relative flex flex-row justify-between rounded-md p-3 hover:bg-gray-100"
                 >
                   <h3 class="text-sm font-medium leading-5">
                     <strong>{{
@@ -257,6 +306,109 @@ onMounted(() => {
                     <li>
                       <strong>Status:</strong>
                       {{ entity.domainStatus || entity.invoiceStatus }}
+                    </li>
+                  </ul>
+
+                  <ul>
+                    <li
+                      v-if="entity.domainName"
+                      class="flex flex-row justify-between gap-2"
+                    >
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="20"
+                        height="20"
+                        fill="currentColor"
+                        class="bi bi-pencil-square hover:text-primary-500 ease-in-out duration-200"
+                        viewBox="0 0 16 16"
+                        role="img"
+                      >
+                        <title>Edit domain</title>
+                        <path
+                          d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"
+                        />
+                        <path
+                          fill-rule="evenodd"
+                          d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"
+                        />
+                      </svg>
+                      <svg
+                        role="img"
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="20"
+                        height="20"
+                        fill="currentColor"
+                        class="bi bi-eye-fill hover:text-primary-500 ease-in-out duration-200"
+                        viewBox="0 0 16 16"
+                        @click="openModal(idx, entity)"
+                      >
+                        <title>View</title>
+                        <path
+                          d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0z"
+                        />
+                        <path
+                          d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8zm8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7z"
+                        />
+                      </svg>
+
+                      <svg
+                        role="img"
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="20"
+                        height="20"
+                        fill="currentColor"
+                        class="bi bi-arrow-clockwise hover:text-primary-500 ease-in-out duration-200"
+                        viewBox="0 0 16 16"
+                      >
+                        <title>Renew domain</title>
+                        <path
+                          fill-rule="evenodd"
+                          d="M8 3a5 5 0 1 0 4.546 2.914.5.5 0 0 1 .908-.417A6 6 0 1 1 8 2v1z"
+                        />
+                        <path
+                          d="M8 4.466V.534a.25.25 0 0 1 .41-.192l2.36 1.966c.12.1.12.284 0 .384L8.41 4.658A.25.25 0 0 1 8 4.466z"
+                        />
+                      </svg>
+                    </li>
+
+                    <li
+                      v-else-if="entity.invoiceNumber"
+                      class="flex flex-row justify-between gap-2"
+                    >
+                      <svg
+                        role="img"
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="20"
+                        height="20"
+                        fill="currentColor"
+                        class="bi bi-eye-fill hover:text-primary-500 ease-in-out duration-200"
+                        viewBox="0 0 16 16"
+                        @click="renderInvoice(entity.invoiceNumber)"
+                      >
+                        <title>View & Download</title>
+                        <path
+                          d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0z"
+                        />
+                        <path
+                          d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8zm8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7z"
+                        />
+                      </svg>
+
+                      <svg
+                        role="img"
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="20"
+                        height="20"
+                        fill="currentColor"
+                        class="bi bi-credit-card-fill hover:text-secondary-500 ease-in-out duration-200"
+                        viewBox="0 0 16 16"
+                        @click="payInvoice(entity.invoiceNumber)"
+                      >
+                        <title>Pay invoice</title>
+                        <path
+                          d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v1H0V4zm0 3v5a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7H0zm3 2h1a1 1 0 0 1 1 1v1a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1v-1a1 1 0 0 1 1-1z"
+                        />
+                      </svg>
                     </li>
                   </ul>
                 </li>
@@ -301,7 +453,18 @@ onMounted(() => {
                     >
                       {{ modalTitle }}
                     </DialogTitle>
+
                     <div class="mt-2" v-html="modalBody"></div>
+
+                    <div class="mt-4">
+                      <button
+                        type="button"
+                        class="inline-flex justify-center px-4 py-2 text-sm font-medium text-white bg-primary-500 border border-transparent rounded-md hover:bg-primary-600 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-primary-500"
+                        @click="closeModal"
+                      >
+                        Got it, thanks!
+                      </button>
+                    </div>
                   </DialogPanel>
                 </TransitionChild>
               </div>
