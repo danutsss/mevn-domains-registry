@@ -56,7 +56,7 @@ const checkDomain = async () => {
 <template>
   <section class="relative h-screen">
     <div
-      class="container flex flex-col-reverse lg:flex-row items-center justify-center h-screen"
+      class="container flex flex-col-reverse lg:flex-row lg:gap-6 justify-center items-center h-full"
     >
       <!-- content start -->
       <div class="flex flex-1 flex-col items-center lg:items-start">
@@ -70,12 +70,9 @@ const checkDomain = async () => {
           We've made it so easy to purchase a custom domain address that we're
           guaranteeing your satisfaction! Registering your .ro is often the
           first step toward turning your website into your online home. And now
-          you can do it for an unbeatable price. See
-          <a href="#features" class="hover:text-blue-grey-900 transition"
-            >what we provide.</a
-          >
+          you can do it for an unbeatable price.
         </p>
-        <div class="flex justify-center flex-wrap gap-6">
+        <div class="flex justify-center flex-wrap">
           <form method="POST" @submit.prevent="checkDomain()">
             <div class="field has-addons">
               <div class="control">
