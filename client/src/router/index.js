@@ -48,6 +48,12 @@ const router = createRouter({
       name: "shopping-cart",
       component: () => import("@/views/CartView.vue"),
     },
+    {
+      path: "/dashboard/profile",
+      name: "profile",
+      component: () => import("@/views/Dashboard/Account/ProfileView.vue"),
+      beforeEnter: authGuard,
+    },
   ],
 });
 
