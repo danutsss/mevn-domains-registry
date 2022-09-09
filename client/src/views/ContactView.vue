@@ -181,7 +181,7 @@ const sendRequest = async () => {
     </div>
   </section>
 
-  <section id="contact-form">
+  <section id="contact-form" class="bg-white">
     <div class="flex flex-col-reverse lg:flex-row justify-center items-center">
       <div class="text-blue-grey-900 mb-10 mt-10">
         <h1 class="text-5xl font-semibold text-center mb-2">
@@ -220,7 +220,7 @@ const sendRequest = async () => {
               </div>
             </div>
           </div>
-          <form method="POST" @submit.prevent="sendRequest()">
+          <form method="POST" class="bg-grey" @submit.prevent="sendRequest">
             <div class="shadow-md overflow-hidden sm:rounded-md">
               <div class="px-4 py-5 sm:p-6">
                 <div class="grid grid-cols-6 gap-6">
@@ -296,7 +296,7 @@ const sendRequest = async () => {
                   possible.
                 </p>
               </div>
-              <div class="px-4 py-3 bg-gray-50 text-right sm:px-6">
+              <div class="px-4 py-3 bg-white text-right sm:px-6">
                 <button
                   type="submit"
                   class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"

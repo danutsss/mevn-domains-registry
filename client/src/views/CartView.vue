@@ -218,7 +218,9 @@ const createInvoice = async () => {
   <section class="relative">
     <div class="container flex flex-col items-center mt-14 lg:mt-14">
       <div class="py-12">
-        <div class="md:flex shadow-lg rounded-lg max-w-md mx-auto md:max-w-5xl">
+        <div
+          class="bg-white md:flex shadow-lg rounded-lg max-w-md mx-auto md:max-w-5xl"
+        >
           <div class="w-full p-4 px-5 py-5">
             <div class="md:grid md:grid-cols-2 gap-2">
               <div class="col-span-2 p-5">
