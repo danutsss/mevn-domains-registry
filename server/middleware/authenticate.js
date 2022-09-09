@@ -1,16 +1,16 @@
 const passport = require("passport");
 
 module.exports = (req, res, next) => {
-    passport.authenticate("jwt", function (err, client, info) {
-        if (err) return next(err);
+	passport.authenticate("jwt", function (err, client) {
+		if (err) return next(err);
 
-        if (!client)
-            return res.status(401).json({
-                message: "unauthorized access - no token provided.",
-            });
+		if (!client)
+			return res.status(401).json({
+				message: "unauthorized access - no token provided.",
+			});
 
-        req.client = client;
+		req.client = client;
 
-        next();
-    })(req, res, next);
+		next();
+	})(req, res, next);
 };

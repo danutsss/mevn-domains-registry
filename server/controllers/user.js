@@ -98,11 +98,7 @@ exports.update = async function (req, res) {
 				message: "you are not authorized to perform this action.",
 			});
 
-		const client = await Client.findByIdAndUpdate(
-			id,
-			{ $set: update },
-			{ new: true }
-		);
+		await Client.findByIdAndUpdate(id, { $set: update }, { new: true });
 	} catch (error) {
 		res.status(500).json({
 			message: error.message,
@@ -120,11 +116,7 @@ exports.updateByEmail = async function (req, res) {
 		const update = req.body;
 		const email = req.body.email;
 
-		const client = await Client.findOneAndUpdate(
-			email,
-			{ $set: update },
-			{ new: true }
-		);
+		await Client.findOneAndUpdate(email, { $set: update }, { new: true });
 	} catch (error) {
 		res.status(500).json({ message: error.message });
 	}

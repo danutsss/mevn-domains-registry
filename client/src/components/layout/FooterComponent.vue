@@ -2,7 +2,7 @@
   <footer class="bg-black py-8 mt-auto">
     <div class="container flex flex-col md:flex-row items-center">
       <div
-        class="flex flex-1 flex-wrap items-center justify-center md:justify-start gap-12"
+        class="flex flex-1 flex-wrap items-center justify-center md:justify-between gap-12"
       >
         <div class="flex items-center justify-center md:justify-start gap-12">
           <svg
@@ -26,17 +26,16 @@
             ZERO SAPTE SERVICES
           </span>
         </div>
-        <ul class="flex text-white uppercase gap-12 text-xs">
-          <li class="cursor-pointer">
-            <a class="text-white" href="#features">Features</a>
-          </li>
-          <li class="cursor-pointer">
-            <a class="text-white" href="/contact">Contact us</a>
-          </li>
-          <li class="cursor-pointer">
-            <a class="text-white" href="/report">Report a problem</a>
-          </li>
-        </ul>
+        <div>
+          <ul class="flex text-white uppercase gap-12 text-xs">
+            <li class="cursor-pointer">
+              <a class="text-white" href="/#features">Features</a>
+            </li>
+            <li class="cursor-pointer">
+              <a class="text-white" href="/contact">Contact us</a>
+            </li>
+          </ul>
+        </div>
       </div>
     </div>
   </footer>

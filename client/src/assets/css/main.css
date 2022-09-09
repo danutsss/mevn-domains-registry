@@ -32,6 +32,10 @@ body {
   flex-direction: column;
 }
 
+button {
+  font-family: "Sora", sans-serif !important;
+}
+
 .btn {
   @apply shadow-md py-3 px-6 rounded-md transition duration-300;
 }
@@ -61,4 +65,13 @@ img {
 
 .w-75 {
   width: 75% !important;
+}
+
+.disabled {
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+.navbar-link:not(.is-arrowless)::after {
+  border-color: var(--teal-300) !important;
 }
