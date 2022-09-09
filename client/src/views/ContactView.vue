@@ -1,6 +1,8 @@
 <script setup>
 import apiConnector from "@/services/apiConnector";
 import { ref } from "vue";
+import { Disclosure, DisclosureButton, DisclosurePanel } from "@headlessui/vue";
+import { ChevronUpIcon } from "@heroicons/vue/solid";
 
 const fullname = ref("");
 const email = ref("");
@@ -46,137 +48,107 @@ const sendRequest = async () => {
         </h1>
       </div>
     </div>
-    <div id="accordionExample" class="accordion w-3/4 text-blue-grey-900">
-      <div class="accordion-item">
-        <h2 id="headingOne" class="accordion-header">
-          <button
-            class="accordion-button collapsed font-bold"
-            type="button"
-            data-bs-toggle="collapse"
-            data-bs-target="#collapseOne"
-            aria-expanded="false"
-            aria-controls="collapseOne"
+    <div class="w-screen px-4">
+      <div class="mx-auto w-full rounded-2xl bg-white p-2">
+        <Disclosure v-slot="{ open }" as="div">
+          <DisclosureButton
+            class="transition flex w-full justify-between rounded-lg bg-secondary-100 px-4 py-2 text-left text-sm font-medium text-blue-grey-900 hover:bg-secondary-200 focus:outline-none focus-visible:ring focus-visible:ring-primary-500 focus-visible:ring-opacity-75"
           >
-            What domain extensions are available?
-          </button>
-        </h2>
-        <div
-          id="collapseOne"
-          class="accordion-collapse collapse"
-          aria-labelledby="headingOne"
-          data-bs-parent="#accordionExample"
-        >
-          <div class="accordion-body font-normal">
-            At the moment, <strong>only</strong> <code>.ro</code> extensions can
-            be bought.
-          </div>
-        </div>
-      </div>
-      <div class="accordion-item">
-        <h2 id="headingTwo" class="accordion-header">
-          <button
-            class="accordion-button collapsed font-bold"
-            type="button"
-            data-bs-toggle="collapse"
-            data-bs-target="#collapseTwo"
-            aria-expanded="false"
-            aria-controls="collapseTwo"
+            <span>What domain extensions are available?</span>
+            <ChevronUpIcon
+              :class="open ? 'rotate-180 transform' : ''"
+              class="h-5 w-5 text-secondary-500"
+            />
+          </DisclosureButton>
+          <DisclosurePanel class="px-4 pt-4 pb-2 text-sm text-gray-500">
+            The <strong>only</strong> domain extension we offer is
+            <code>.ro</code>. We do not offer any other extensions.
+          </DisclosurePanel>
+        </Disclosure>
+        <Disclosure v-slot="{ open }" as="div" class="mt-2">
+          <DisclosureButton
+            class="transition flex w-full justify-between rounded-lg bg-secondary-100 px-4 py-2 text-left text-sm font-medium text-blue-grey-900 hover:bg-secondary-200 focus:outline-none focus-visible:ring focus-visible:ring-primary-500 focus-visible:ring-opacity-75"
           >
-            How long it takes to register a domain?
-          </button>
-        </h2>
-        <div
-          id="collapseTwo"
-          class="accordion-collapse collapse"
-          aria-labelledby="headingTwo"
-          data-bs-parent="#accordionExample"
-        >
-          <div class="accordion-body font-normal">
+            <span>What is your refund policy?</span>
+            <ChevronUpIcon
+              :class="open ? 'rotate-180 transform' : ''"
+              class="h-5 w-5 text-secondary-500"
+            />
+          </DisclosureButton>
+          <DisclosurePanel class="px-4 pt-4 pb-2 text-sm text-gray-500">
+            If you're unhappy with your purchase for any reason, email us within
+            90 days and we'll refund you in full, no questions asked.
+          </DisclosurePanel>
+        </Disclosure>
+        <Disclosure v-slot="{ open }" as="div" class="mt-2">
+          <DisclosureButton
+            class="transition flex w-full justify-between rounded-lg bg-secondary-100 px-4 py-2 text-left text-sm font-medium text-blue-grey-900 hover:bg-secondary-200 focus:outline-none focus-visible:ring focus-visible:ring-primary-500 focus-visible:ring-opacity-75"
+          >
+            <span>How long it takes to register a domain?</span>
+            <ChevronUpIcon
+              :class="open ? 'rotate-180 transform' : ''"
+              class="h-5 w-5 text-secondary-500"
+            />
+          </DisclosureButton>
+          <DisclosurePanel class="px-4 pt-4 pb-2 text-sm text-gray-500">
             A domain is registered for <strong>1 year</strong> after the payment
             is received. Then it'll take <strong>1 to 2</strong> business days
             to be fully registered.
-          </div>
-        </div>
-      </div>
-      <div class="accordion-item">
-        <h2 id="headingThree" class="accordion-header">
-          <button
-            class="accordion-button collapsed font-bold"
-            type="button"
-            data-bs-toggle="collapse"
-            data-bs-target="#collapseThree"
-            aria-expanded="false"
-            aria-controls="collapseThree"
+          </DisclosurePanel>
+        </Disclosure>
+
+        <Disclosure v-slot="{ open }" as="div" class="mt-2">
+          <DisclosureButton
+            class="transition flex w-full justify-between rounded-lg bg-secondary-100 px-4 py-2 text-left text-sm font-medium text-blue-grey-900 hover:bg-secondary-200 focus:outline-none focus-visible:ring focus-visible:ring-primary-500 focus-visible:ring-opacity-75"
           >
-            For what period of time can I register a domain?
-          </button>
-        </h2>
-        <div
-          id="collapseThree"
-          class="accordion-collapse collapse"
-          aria-labelledby="headingThree"
-          data-bs-parent="#accordionExample"
-        >
-          <div class="accordion-body font-normal">
+            <span>For what period of time can I register a domain?</span>
+            <ChevronUpIcon
+              :class="open ? 'rotate-180 transform' : ''"
+              class="h-5 w-5 text-secondary-500"
+            />
+          </DisclosureButton>
+          <DisclosurePanel class="px-4 pt-4 pb-2 text-sm text-gray-500">
             The minimum period of registration for a domain is
             <strong>1 year</strong>. However, we recommend our clients to
             activate or extend the web domain for several years in advance.
-          </div>
-        </div>
-      </div>
-      <div class="accordion-item">
-        <h2 id="headingFour" class="accordion-header">
-          <button
-            class="accordion-button collapsed font-bold"
-            type="button"
-            data-bs-toggle="collapse"
-            data-bs-target="#collapseFour"
-            aria-expanded="false"
-            aria-controls="collapseFour"
+          </DisclosurePanel>
+        </Disclosure>
+
+        <Disclosure v-slot="{ open }" as="div" class="mt-2">
+          <DisclosureButton
+            class="transition flex w-full justify-between rounded-lg bg-secondary-100 px-4 py-2 text-left text-sm font-medium text-blue-grey-900 hover:bg-secondary-200 focus:outline-none focus-visible:ring focus-visible:ring-primary-500 focus-visible:ring-opacity-75"
           >
-            Can I change the domain name after registration?
-          </button>
-        </h2>
-        <div
-          id="collapseFour"
-          class="accordion-collapse collapse"
-          aria-labelledby="headingFour"
-          data-bs-parent="#accordionExample"
-        >
-          <div class="accordion-body font-normal">
+            <span>Can I change the domain name after registration?</span>
+            <ChevronUpIcon
+              :class="open ? 'rotate-180 transform' : ''"
+              class="h-5 w-5 text-secondary-500"
+            />
+          </DisclosureButton>
+          <DisclosurePanel class="px-4 pt-4 pb-2 text-sm text-gray-500">
             Once a domain is registered and active, you are it's owner.
             Unfortunately, the name can no longer be changed, but you can
             register a new domain name and the initial one will simply not be
             extended at the expiration date.
-          </div>
-        </div>
-      </div>
-      <div class="accordion-item">
-        <h2 id="headingFive" class="accordion-header">
-          <button
-            class="accordion-button collapsed font-bold"
-            type="button"
-            data-bs-toggle="collapse"
-            data-bs-target="#collapseFive"
-            aria-expanded="false"
-            aria-controls="collapseFive"
+          </DisclosurePanel>
+        </Disclosure>
+
+        <Disclosure v-slot="{ open }" as="div" class="mt-2">
+          <DisclosureButton
+            class="transition flex w-full justify-between rounded-lg bg-secondary-100 px-4 py-2 text-left text-sm font-medium text-blue-grey-900 hover:bg-secondary-200 focus:outline-none focus-visible:ring focus-visible:ring-primary-500 focus-visible:ring-opacity-75"
           >
-            I found a problem on your website, what should I do?
-          </button>
-        </h2>
-        <div
-          id="collapseFive"
-          class="accordion-collapse collapse"
-          aria-labelledby="headingFive"
-          data-bs-parent="#accordionExample"
-        >
-          <div class="accordion-body font-normal">
+            <span>I found a problem on your website, what should I do?</span>
+            <ChevronUpIcon
+              :class="open ? 'rotate-180 transform' : ''"
+              class="h-5 w-5 text-secondary-500"
+            />
+          </DisclosureButton>
+          <DisclosurePanel class="px-4 pt-4 pb-2 text-sm text-gray-500">
             If you find a problem on our website, please fill the form below
             with the first paragraph of the message as:
             <strong>[BUG]</strong> and we'll get back to you as soon as
             possible. We'll do our best to fix it.
-          </div>
-        </div>
+          </DisclosurePanel>
+        </Disclosure>
       </div>
     </div>
   </section>
