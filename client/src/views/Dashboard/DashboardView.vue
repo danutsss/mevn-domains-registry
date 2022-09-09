@@ -24,6 +24,7 @@ const categories = ref({
 const isOpen = ref(false);
 const modalTitle = ref("");
 const modalBody = ref("");
+const isLoading = ref(false);
 
 const editDomain = entity => {
   isOpen.value = true;
@@ -163,79 +164,83 @@ onMounted(() => {
 
   const user = getUserFromLocalStorage();
 
-  apiConnector()
-    .get(`/api/domains/${user["client"]["_id"]}/all`)
-    .then(response => {
-      for (let i = 0; i < response.data.domains.length; i++) {
-        const domainPeriod =
-          response.data.domains[i].domainPeriod == 1
-            ? "1 year"
-            : response.data.domains[i].domainPeriod + " years";
+  isLoading.value = true;
+  setTimeout(() => {
+    apiConnector()
+      .get(`/api/domains/${user["client"]["_id"]}/all`)
+      .then(response => {
+        for (let i = 0; i < response.data.domains.length; i++) {
+          const domainPeriod =
+            response.data.domains[i].domainPeriod == 1
+              ? "1 year"
+              : response.data.domains[i].domainPeriod + " years";
 
-        const unformattedRegDate = new Date(
-          response.data.domains[i].domainRegisterDate,
-        );
-        const registerDate = unformattedRegDate.toLocaleDateString(
-          "en-US",
-          options,
-        );
+          const unformattedRegDate = new Date(
+            response.data.domains[i].domainRegisterDate,
+          );
+          const registerDate = unformattedRegDate.toLocaleDateString(
+            "en-US",
+            options,
+          );
 
-        const unformattedExpDate = new Date(
-          response.data.domains[i].domainExpireDate,
-        );
-        const expireDate = unformattedExpDate.toLocaleDateString(
-          "en-US",
-          options,
-        );
+          const unformattedExpDate = new Date(
+            response.data.domains[i].domainExpireDate,
+          );
+          const expireDate = unformattedExpDate.toLocaleDateString(
+            "en-US",
+            options,
+          );
 
-        categories.value.Domains.push({
-          domainName: response.data.domains[i].domainName,
-          domainPeriod: domainPeriod,
-          domainPrice: response.data.domains[i].domainPrice,
-          domainStatus: response.data.domains[i].domainStatus,
-          domainType: response.data.domains[i].domainType,
-          domainRegisterDate: registerDate,
-          domainExpireDate: expireDate,
-        });
-      }
-    });
-
-  apiConnector()
-    .get(`/api/invoices/${user["client"]["_id"]}/all`)
-    .then(response => {
-      for (let i = 0; i < response.data.invoices.length; i++) {
-        let statusInvoice = "";
-
-        if (response.data.invoices[i].invoiceStatus == 0) {
-          statusInvoice = "draft";
-        } else if (response.data.invoices[i].invoiceStatus == 1) {
-          statusInvoice = "unpaid";
-        } else if (response.data.invoices[i].invoiceStatus == 2) {
-          statusInvoice = "partially paid";
-        } else if (response.data.invoices[i].invoiceStatus == 3) {
-          statusInvoice = "paid";
-        } else if (response.data.invoices[i].invoiceStatus == 4) {
-          statusInvoice = "void";
-        } else if (response.data.invoices[i].invoiceStatus == 5) {
-          statusInvoice = "processed proforma";
+          categories.value.Domains.push({
+            domainName: response.data.domains[i].domainName,
+            domainPeriod: domainPeriod,
+            domainPrice: response.data.domains[i].domainPrice,
+            domainStatus: response.data.domains[i].domainStatus,
+            domainType: response.data.domains[i].domainType,
+            domainRegisterDate: registerDate,
+            domainExpireDate: expireDate,
+          });
         }
+      });
 
-        const today = new Date(response.data.invoices[i].invoiceDate);
-        const dateInvoice = today.toLocaleDateString("en-US", options);
+    apiConnector()
+      .get(`/api/invoices/${user["client"]["_id"]}/all`)
+      .then(response => {
+        for (let i = 0; i < response.data.invoices.length; i++) {
+          let statusInvoice = "";
 
-        const date = new Date(response.data.invoices[i].invoiceDueDate);
-        const dueDateInvoice = date.toLocaleDateString("en-US", options);
+          if (response.data.invoices[i].invoiceStatus == 0) {
+            statusInvoice = "draft";
+          } else if (response.data.invoices[i].invoiceStatus == 1) {
+            statusInvoice = "unpaid";
+          } else if (response.data.invoices[i].invoiceStatus == 2) {
+            statusInvoice = "partially paid";
+          } else if (response.data.invoices[i].invoiceStatus == 3) {
+            statusInvoice = "paid";
+          } else if (response.data.invoices[i].invoiceStatus == 4) {
+            statusInvoice = "void";
+          } else if (response.data.invoices[i].invoiceStatus == 5) {
+            statusInvoice = "processed proforma";
+          }
 
-        categories.value.Invoices.push({
-          invoiceNumber: response.data.invoices[i].invoiceNumber,
-          invoiceDate: dateInvoice,
-          invoiceDueDate: dueDateInvoice,
-          invoiceStatus: statusInvoice,
-          invoiceTotal: response.data.invoices[i].invoiceTotal,
-          invoiceItems: response.data.invoices[i].invoiceItems,
-        });
-      }
-    });
+          const today = new Date(response.data.invoices[i].invoiceDate);
+          const dateInvoice = today.toLocaleDateString("en-US", options);
+
+          const date = new Date(response.data.invoices[i].invoiceDueDate);
+          const dueDateInvoice = date.toLocaleDateString("en-US", options);
+
+          categories.value.Invoices.push({
+            invoiceNumber: response.data.invoices[i].invoiceNumber,
+            invoiceDate: dateInvoice,
+            invoiceDueDate: dueDateInvoice,
+            invoiceStatus: statusInvoice,
+            invoiceTotal: response.data.invoices[i].invoiceTotal,
+            invoiceItems: response.data.invoices[i].invoiceItems,
+          });
+        }
+      });
+    isLoading.value = false;
+  }, 3000);
 });
 </script>
 
@@ -275,10 +280,12 @@ onMounted(() => {
               ]"
             >
               <div
-                v-if="entities.length === 0"
+                v-if="isLoading"
                 class="flex flex-row text-center justify-center items-center"
               >
-                No {{ Object.keys(categories)[idx].toLowerCase() }} found.
+                <div
+                  class="animate-spin rounded-full h-12 w-12 border-b-1 border-gray-900"
+                ></div>
               </div>
               <ul>
                 <li
