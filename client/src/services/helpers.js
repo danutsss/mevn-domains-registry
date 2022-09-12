@@ -33,11 +33,11 @@ export const getUserFromLocalStorage = () => {
   return parsedUser;
 };
 
-// export const updateInvoices = async number => {
-//   return await ucrmApiRequest(
-//     "GET",
-//     `${config.ucrmApiUrl}/invoices?number=${number}`,
-//   );
-// };
+export const updateInvoices = async number => {
+  return await ucrmApiRequest(
+    "GET",
+    `${config.ucrmApiUrl}/invoices?number=${number}`,
+  );
+};
 
 export default { addPadding };
