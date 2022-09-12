@@ -4,7 +4,7 @@
 	"description": "A MEVN stack based application for registering .ro TLD domains.",
 	"main": "server/index.js",
 	"scripts": {
-		"dev": "concurrently \"nodemon server/index.js\" \"cd client && npm run dev\""
+		"dev": "concurrently \"nodemon server/index.js\" \"cd client && npm run dev\"",
 		"start": "concurrently \"nodemon server/index.js\" \"cd client && npm run dev\""
 	},
 	"repository": {
