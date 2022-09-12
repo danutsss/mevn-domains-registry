@@ -1,5 +1,5 @@
-// import { ucrmApiRequest } from "@/services/apiConnector";
-// import config from "@/config/dev";
+import { ucrmApiRequest } from "@/services/apiConnector";
+import config from "@/config/dev";
 
 /**
  * Adds padding and newlines into a string without whitespace
