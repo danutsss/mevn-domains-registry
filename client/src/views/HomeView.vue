@@ -54,9 +54,9 @@ const checkDomain = async () => {
 };
 </script>
 <template>
-  <section class="relative">
+  <section class="relative h-screen">
     <div
-      class="container flex flex-col-reverse lg:flex-row items-center gap-12 mt-14 lg:mt-28"
+      class="container flex flex-col-reverse lg:flex-row lg:gap-6 justify-center items-center h-full"
     >
       <!-- content start -->
       <div class="flex flex-1 flex-col items-center lg:items-start">
@@ -72,7 +72,7 @@ const checkDomain = async () => {
           first step toward turning your website into your online home. And now
           you can do it for an unbeatable price.
         </p>
-        <div class="flex justify-center flex-wrap gap-6">
+        <div class="flex justify-center flex-wrap">
           <form method="POST" @submit.prevent="checkDomain()">
             <div class="field has-addons">
               <div class="control">
@@ -125,7 +125,7 @@ const checkDomain = async () => {
       <!-- content end -->
 
       <!-- image start -->
-      <div class="flex justify-center flex-1 mb-10 md:mb-16 lg:mb-0 z-10">
+      <div class="flex justify-center flex-1 z-10">
         <img
           class="w-5/6 h-5/6 sm:w-3/4 sm:h-3/4 md:w-full md:h-full"
           src="/src/assets/img/svgs/domain_search.svg"
@@ -143,7 +143,7 @@ const checkDomain = async () => {
   </section>
 
   <!-- features start -->
-  <section id="features" class="bg-grey py-40 mt-20 lg:mt-60">
+  <section id="features" class="bg-white py-40">
     <!-- heading start -->
     <div class="sm:w-3/4 lg:w-5/12 mx-auto px-2">
       <h1 class="text-3xl text-center text-blue-grey-900">Features</h1>
