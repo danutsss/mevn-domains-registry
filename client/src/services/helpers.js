@@ -1,5 +1,5 @@
 import { ucrmApiRequest } from "@/services/apiConnector";
-import config from "@/config/dev";
+// import config from "@/config/dev";
 
 /**
  * Adds padding and newlines into a string without whitespace
@@ -33,11 +33,11 @@ export const getUserFromLocalStorage = () => {
   return parsedUser;
 };
 
-export const updateInvoices = async number => {
-  return await ucrmApiRequest(
-    "GET",
-    `${config.ucrmApiUrl}/invoices?number=${number}`,
-  );
-};
+// export const updateInvoices = async number => {
+//   return await ucrmApiRequest(
+//     "GET",
+//     `${config.ucrmApiUrl}/invoices?number=${number}`,
+//   );
+// };
 
 export default { addPadding };
