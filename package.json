@@ -27,7 +27,7 @@
 	},
 	"homepage": "https://github.com/matei1337/mevn-domains-registry#readme",
 	"devDependencies": {
-		"concurrently": "^7.6.0",
+		"concurrently": "^8.0.1",
 		"crypto": "^1.0.1",
 		"helmet": "^6.1.2",
 		"morgan": "^1.10.0",
