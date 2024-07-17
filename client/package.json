@@ -35,7 +35,7 @@
     "eslint-plugin-vue": "^9.0.0",
     "glob-parent": "^6.0.2",
     "jsdom": "^20.0.0",
-    "postcss": "^8.4.14",
+    "postcss": "^8.4.31",
     "postcss-import": "^14.1.0",
     "postcss-nesting": "^10.1.10",
     "prettier": "^2.5.1",
